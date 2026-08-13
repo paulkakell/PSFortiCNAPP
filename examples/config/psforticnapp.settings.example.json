@@ -1,0 +1,24 @@
+{
+  "spdxFileCopyrightText": "2026 Paul Kell",
+  "spdxLicenseIdentifier": "Apache-2.0",
+  "schemaVersion": "1.0",
+  "dataClassification": "SyntheticTemplate",
+  "workspace": {
+    "evidenceDirectory": "evidence",
+    "logDirectory": "logs",
+    "temporaryDirectory": "tmp"
+  },
+  "reporting": {
+    "timeZone": "UTC",
+    "defaultFormat": "Object"
+  },
+  "authentication": {
+    "source": "NotConfigured",
+    "sensitiveValuesIncluded": false
+  },
+  "notes": [
+    "This template contains no live environment or authentication material.",
+    "Copy it outside the repository only after reviewing the destination and ignore rules.",
+    "Sensitive values belong in an approved management mechanism introduced later in the project."
+  ]
+}
