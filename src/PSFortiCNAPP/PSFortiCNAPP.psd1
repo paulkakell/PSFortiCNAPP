@@ -12,6 +12,7 @@
     PowerShellVersion = '7.6'
     CompatiblePSEditions = @('Core')
     FunctionsToExport = @(
+        'ConvertTo-FortiCNAPPEvidenceRecord'
         'Get-FortiCNAPPModuleInfo'
         'Test-FortiCNAPPEnvironment'
     )
@@ -30,7 +31,7 @@
             )
             LicenseUri = 'https://github.com/paulkakell/PSFortiCNAPP/blob/main/LICENSE'
             ProjectUri = 'https://github.com/paulkakell/PSFortiCNAPP'
-            ReleaseNotes = 'Initial module foundation with non-network environment and module information commands.'
+            ReleaseNotes = 'Initial foundation plus synthetic evidence-record normalization.'
         }
     }
 }

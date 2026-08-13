@@ -25,6 +25,7 @@ foreach ($file in $publicFiles) {
 }
 
 $publicFunctions = @(
+    'ConvertTo-FortiCNAPPEvidenceRecord'
     'Get-FortiCNAPPModuleInfo'
     'Test-FortiCNAPPEnvironment'
 )
