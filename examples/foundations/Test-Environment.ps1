@@ -15,10 +15,18 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-$repositoryRoot = (Resolve-Path -LiteralPath (Join-Path -Path $PSScriptRoot -ChildPath '../..')).Path
-$manifestPath = Join-Path -Path $repositoryRoot -ChildPath 'src/PSFortiCNAPP/PSFortiCNAPP.psd1'
+$repositoryRoot = (
+    Resolve-Path -LiteralPath (
+        Join-Path -Path $PSScriptRoot -ChildPath '../..'
+    )
+).Path
+$manifestPath = Join-Path `
+    -Path $repositoryRoot `
+    -ChildPath 'src/PSFortiCNAPP/PSFortiCNAPP.psd1'
 
 Import-Module -Name $manifestPath -Force -ErrorAction Stop
 
 Get-FortiCNAPPModuleInfo
-Test-FortiCNAPPEnvironment -WorkspacePath $WorkspacePath -SkipWriteTest:$SkipWriteTest
+Test-FortiCNAPPEnvironment `
+    -WorkspacePath $WorkspacePath `
+    -SkipWriteTest:$SkipWriteTest

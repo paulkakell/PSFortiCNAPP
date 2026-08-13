@@ -87,6 +87,7 @@ The book is not:
 - A default endorsement of automatic remediation.
 - A PowerShell Gallery publishing guide.
 - A repository for real customer data, credentials, screenshots, or tenant exports.
+- A reason to publish complete commercial chapter manuscripts in `paulkakell/PSFortiCNAPP`.
 
 ## Voice and teaching style
 
@@ -133,30 +134,55 @@ All names, accounts, identifiers, metrics, incidents, and outputs are synthetic 
 
 The case study provides continuity without suggesting that one architecture or compliance program fits every reader.
 
-## Chapter anatomy
+## Standard chapter structure
 
-Every chapter follows this sequence unless the subject requires a documented exception:
+Every chapter uses the following production structure unless the subject requires a documented exception:
 
 1. Opening operational scenario.
 2. Reader outcomes.
-3. Executive relevance.
-4. Concepts and architecture.
-5. Interface-selection decision.
-6. Implementation.
-7. Complete PowerShell code.
-8. Verified API or LQL examples.
-9. Synthetic or sanitized output.
-10. Technical interpretation.
-11. Executive interpretation.
-12. Security and privacy considerations.
-13. Failure modes and troubleshooting.
-14. Tests.
-15. Hands-on lab.
-16. Review questions and exercises.
-17. Key takeaways.
-18. Source and version notes.
-19. Verification-ledger updates.
-20. Companion-repository artifacts.
+3. Why the topic matters.
+4. CISO relevance.
+5. New PowerShell concepts.
+6. FortiCNAPP concepts.
+7. Smallest working example.
+8. Line-by-line explanation.
+9. Object and output inspection.
+10. Production improvement.
+11. Complete runnable code.
+12. Verified API or LQL example.
+13. Synthetic output.
+14. Engineering interpretation.
+15. CISO interpretation.
+16. Security and privacy considerations.
+17. Data-quality considerations.
+18. Failure modes.
+19. Troubleshooting.
+20. Tests.
+21. Hands-on lab.
+22. Checkpoint.
+23. Key takeaways.
+24. Source and version notes.
+25. Verification-ledger updates.
+26. `paulkakell/PSFortiCNAPP` artifacts.
+27. Word-count result.
+28. Prohibited-character validation result.
+
+Not every chapter requires equal space for every section. A chapter may combine adjacent material when the sequence remains clear and the exception is recorded in its production notes.
+
+## Manuscript and repository boundary
+
+The commercial chapter manuscript is maintained outside the active public repository tree.
+
+The repository may contain:
+
+- The master outline.
+- The approved Phase 1 sample.
+- Production notes and chapter-to-repository maps.
+- Independent open-source tutorials.
+- Complete executable examples, tests, schemas, and synthetic fixtures.
+- Source registers, verification records, report templates, and operational documentation.
+
+The repository must not contain complete commercial chapter manuscripts, publisher layouts, cover files, commercially commissioned illustrations, or book-exclusive downloads unless a publishing agreement and explicit authorization permit publication.
 
 ## Technical conventions
 
@@ -193,9 +219,9 @@ The manuscript must never treat missing data as proof that risk is absent.
 
 | Section | Target words |
 |---|---:|
-| Front matter and introduction | 2,000 |
-| Chapters 1 through 16 | 105,000 |
-| Appendices A through F | 9,000 |
+| Front matter and introduction | 3,000 |
+| Chapters 1 through 16 | 100,000 |
+| Appendices A through F | 13,000 |
 | Total target | 116,000 |
 
 Chapter targets are planning controls, not reasons to pad text. A chapter may vary when its lab, code, or architecture needs more space.
@@ -211,11 +237,13 @@ A chapter cannot be marked complete until:
 - Synthetic output is labeled.
 - Secrets and identifying tenant data are absent.
 - Executive metrics disclose scope and quality.
-- The repository artifact matches the printed code.
+- The repository artifact matches the code presented in the commercial manuscript.
+- The public repository contains no complete commercial chapter manuscript.
 - The chapter source and version note is current.
-- The prohibited-character check passes.
+- Verification-ledger entries are updated.
 - The chapter's actual word count is recorded.
+- The prohibited-character check confirms zero U+2014 occurrences.
 
 ## Change control
 
-Changes to the title, audience, licensing, distribution channel, six-part structure, chapter count, evidence labels, or no-invention rule require an explicit decision record. Minor wording and implementation refinements do not require a book-bible revision unless they change reader expectations or technical behavior.
+Changes to the title, audience, licensing, distribution channel, six-part structure, chapter count, evidence labels, manuscript boundary, or no-invention rule require an explicit decision record. Minor wording and implementation refinements do not require a book-bible revision unless they change reader expectations or technical behavior.
