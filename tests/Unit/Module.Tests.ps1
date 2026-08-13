@@ -19,14 +19,15 @@ Describe 'PSFortiCNAPP module foundation' {
         $module.Name | Should -Be 'PSFortiCNAPP'
     }
 
-    It 'exports only the approved foundation commands' {
+    It 'exports only the approved Chapter 3 commands' {
         $commands = @(
             Get-Command -Module PSFortiCNAPP |
                 Select-Object -ExpandProperty Name |
                 Sort-Object
         )
 
-        $commands | Should -HaveCount 2
+        $commands | Should -HaveCount 3
+        $commands | Should -Contain 'ConvertTo-FortiCNAPPEvidenceRecord'
         $commands | Should -Contain 'Get-FortiCNAPPModuleInfo'
         $commands | Should -Contain 'Test-FortiCNAPPEnvironment'
     }
@@ -44,7 +45,11 @@ Describe 'PSFortiCNAPP module foundation' {
     }
 
     It 'does not expose credential-shaped properties in module information' {
-        $propertyNames = @(Get-FortiCNAPPModuleInfo | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name)
+        $propertyNames = @(
+            Get-FortiCNAPPModuleInfo |
+                Get-Member -MemberType NoteProperty |
+                Select-Object -ExpandProperty Name
+        )
         $joinedNames = $propertyNames -join ','
 
         $joinedNames | Should -Not -Match '(?i)secret|password|token|credential|api.?key'
