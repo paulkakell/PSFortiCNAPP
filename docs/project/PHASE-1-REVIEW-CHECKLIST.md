@@ -24,20 +24,20 @@
 - [x] Six-part, sixteen-chapter, six-appendix outline prepared.
 - [x] Word allocation prepared.
 - [x] Sample section prepared.
-- [ ] Sample voice and scope approved by author.
+- [x] Sample voice and scope approved by author.
 
 ## Technical blueprint
 
 - [x] PowerShell baseline selected.
 - [x] Module layers defined.
 - [x] Provisional command families defined.
-- [x] Authentication and secret-handling model defined.
+- [x] Authentication and configuration model defined.
 - [x] Transport, error, retry, pagination, and diagnostic models defined.
 - [x] LQL discovery and validation lifecycle defined.
 - [x] Evidence and data-quality models defined.
 - [x] Unit, contract, integration, static-analysis, and coverage strategy defined.
 - [x] GitHub Release artifact model defined.
-- [ ] Public command names approved.
+- [x] Public command families approved as the Phase 2 design baseline.
 - [ ] Initial controlled tenant and permission model designated.
 
 ## Verification
@@ -48,7 +48,7 @@
 - [x] High-risk validation areas listed.
 - [ ] Initial FortiCNAPP tenant version recorded.
 - [ ] Initial Lacework FortiCNAPP CLI version recorded.
-- [ ] Verification evidence storage location approved.
+- [x] Verification storage model approved: sanitized fixtures in the repository and restricted validation records outside it.
 
 ## Executive reporting
 
@@ -67,9 +67,9 @@
 - [x] Root license replacement prepared.
 - [x] GitHub Releases-only distribution recorded.
 - [x] PowerShell Gallery excluded.
-- [ ] Split-license model approved for application to the GitHub repository.
-- [ ] Repository metadata update approved.
-- [ ] Branch-protection and workflow implementation approved.
+- [x] Split-license model approved for application to the GitHub repository.
+- [ ] Repository metadata update approved as a separate GitHub settings action.
+- [ ] Branch protection remains pending; pull-request workflow implementation is approved for Phase 2.
 
 ## Quality controls
 
@@ -80,9 +80,9 @@
 - [x] Phase 1 package contains no production API endpoint implementation.
 - [ ] Independent editorial review completed.
 - [ ] Independent technical review completed.
-- [ ] Final Phase 1 approval recorded.
+- [x] Final Phase 1 approval recorded.
 
-## Binding decisions for approval
+## Binding decisions
 
 1. Keep the exact title and module name.
 2. Use PowerShell 7.6 LTS as the initial baseline.
@@ -95,10 +95,15 @@
 ## Phase 1 approval record
 
 ```text
-Decision: Pending
-Approved by:
-Date:
-Exceptions:
-Required revisions:
-Next authorized action:
+Decision: Approved to proceed to the Phase 2 foundation
+Approved by: Paul Kell
+Date: 2026-08-13
+Exceptions: Controlled-tenant designation, product and CLI version capture,
+            Chapter 14 metric selection, repository metadata, branch protection,
+            and independent reviews remain open. They cannot support provider
+            claims until completed.
+Required revisions: None blocking the Phase 2 foundation.
+Next authorized action: Add governance, module scaffolding, synthetic fixtures,
+                        tests, build scripts, and pull-request CI on a stacked
+                        Phase 2 branch, then open a draft pull request.
 ```
