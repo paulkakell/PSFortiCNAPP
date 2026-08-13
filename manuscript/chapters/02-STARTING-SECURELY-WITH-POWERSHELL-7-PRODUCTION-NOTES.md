@@ -5,15 +5,17 @@
 
 ## Status
 
-Full chapter draft implemented on `phase2/chapter-02`.
+The commercial Chapter 2 draft is complete as a publishing asset. The active public repository contains only its companion artifacts, source register, tests, and these production notes.
 
-Remaining gates:
+Completed public gates:
 
 - Cross-platform continuous integration.
-- Editorial review.
-- Technical review.
-- Author approval.
-- Merge after current-head checks pass.
+- Pester and PSScriptAnalyzer checks.
+- Setup checklist and settings-template contracts.
+- U+2014 validation.
+- Repository boundary correction.
+
+Editorial, publisher, and final technical review remain manuscript activities outside the public repository.
 
 ## Chapter purpose
 
@@ -21,7 +23,7 @@ Give a PowerShell beginner a safe, cross-platform, profile-independent environme
 
 ## Implemented reader outcomes
 
-The draft teaches the reader to:
+The chapter teaches the reader to:
 
 1. Distinguish PowerShell 7 from Windows PowerShell 5.1.
 2. Confirm version and edition through `$PSVersionTable`.
@@ -63,14 +65,15 @@ The runnable lab requires no tenant-dependent claim.
 
 | Chapter element | Repository artifact |
 |---|---|
-| Full chapter draft | `manuscript/chapters/02-STARTING-SECURELY-WITH-POWERSHELL-7.md` |
+| Production record | `manuscript/chapters/02-STARTING-SECURELY-WITH-POWERSHELL-7-PRODUCTION-NOTES.md` |
 | Primary source register | `docs/source-register/CHAPTER-02.md` |
 | Setup checklist | `docs/getting-started/CHAPTER-02-SETUP-CHECKLIST.md` |
 | Settings template | `examples/config/psforticnapp.settings.example.json` |
 | Environment example | `examples/foundations/Test-Environment.ps1` |
 | Public readiness command | `src/PSFortiCNAPP/Public/Test-FortiCNAPPEnvironment.ps1` |
-| Chapter contract | `tests/Content/Chapter02.Tests.ps1` |
+| Public artifact contract | `tests/Content/Chapter02.Tests.ps1` |
 | Configuration contract | `tests/Contract/Chapter02Configuration.Tests.ps1` |
+| Manuscript boundary contract | `tests/Content/ManuscriptBoundary.Tests.ps1` |
 
 ## Preserved cautions
 
@@ -83,14 +86,6 @@ The runnable lab requires no tenant-dependent claim.
 - Native exit codes follow the native program's contract.
 - Workspace readiness is point-in-time local evidence.
 
-## Completion gate
+## Completion record
 
-The chapter can be marked complete after:
-
-- Current branch checks pass on Windows, Ubuntu, and macOS.
-- The chapter contract confirms the twenty-part anatomy and production word range.
-- The settings template passes its contract.
-- The printed environment example matches the repository file.
-- Editorial review accepts the beginner progression.
-- Technical review accepts the runtime, path, stream, error, and profile explanations.
-- Author approval is recorded.
+Public companion artifacts are complete for the current baseline. The commercial chapter remains subject to editorial, publisher, and final technical review outside the public repository.
