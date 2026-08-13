@@ -5,41 +5,42 @@
 
 ## Status
 
-Foundation artifacts implemented. Full chapter drafting remains pending source verification and editorial review.
+Full chapter draft implemented on `phase2/chapter-01`.
+
+Remaining gates:
+
+- Cross-platform continuous integration on the chapter branch.
+- Editorial review.
+- Technical review.
+- Author approval.
+- Merge after the Phase 2 foundation reaches `main`.
 
 ## Chapter purpose
 
-Establish that cloud-security automation is trustworthy only when it identifies its intended scope, collected evidence, missing evidence, calculation rules, and remaining uncertainty.
+Establish that cloud-security automation is trustworthy only when it identifies intended scope, collected evidence, missing evidence, calculation rules, and remaining uncertainty.
 
-## Reader outcomes
+## Implemented reader outcomes
 
-The reader will be able to:
+The draft teaches the reader to:
 
 1. Distinguish visibility, evidence, finding, risk, and decision.
 2. Explain why a console count is not automatically a complete metric.
 3. Identify the role of a scope register before provider collection begins.
 4. Separate observed, missing, stale, excluded, and unavailable evidence.
 5. State a coverage denominator before calculating a percentage.
-6. Label synthetic data so it cannot be mistaken for tenant evidence.
+6. Read the synthetic Chapter 1 PowerShell lab.
+7. Translate one evidence object into technical and executive interpretations.
 
 ## Operational scenario
 
-Kestrel Vale Health Services receives separate summaries from cloud, container, vulnerability, and compliance teams. The totals disagree because each team uses a different scope and freshness rule. The CISO asks which number can support a decision.
-
-The chapter does not resolve the disagreement by selecting the largest or newest number. It first establishes the intended environment and then asks which scopes were observed recently enough to count.
+Kestrel Vale Health Services receives conflicting cloud-risk summaries because separate teams use different scope and freshness rules. The chapter resolves the disagreement by defining intended scope before interpreting collected evidence.
 
 ## Lab contract
 
-The lab uses `tests/Fixtures/Synthetic/chapter-01-scope-register.json` and `examples/foundations/Review-SyntheticScopeRegister.ps1`.
+The lab uses:
 
-The reader will:
-
-1. Inspect the fixture classification and denominator definition.
-2. Count scopes expected in FortiCNAPP.
-3. Exclude the training scope from the denominator.
-4. Separate current, missing, and stale evidence.
-5. Calculate current observed coverage.
-6. Explain why the result is a synthetic exercise rather than a provider claim.
+- `tests/Fixtures/Synthetic/chapter-01-scope-register.json`
+- `examples/foundations/Review-SyntheticScopeRegister.ps1`
 
 Expected synthetic result:
 
@@ -49,49 +50,48 @@ Expected synthetic result:
 - One stale scope.
 - Sixty percent current observed coverage.
 
-## Evidence language
+## Source status
 
-The chapter uses the labels in `docs/reference/EVIDENCE-LABELS.md`.
+The source plan is implemented in `docs/source-register/CHAPTER-01.md` with eleven first-party records reviewed on August 13, 2026.
 
-Statements about the current product name, console, CLI, API v2, LQL, or supported cloud coverage require current official sources. Tenant-dependent statements remain `VERIFY IN TENANT` until the verification ledger permits publication.
+The register covers:
 
-## Source plan
+- Current FortiCNAPP API naming and API v2 direction.
+- FortiCNAPP CLI naming and interface role.
+- LQL and datasource discovery.
+- Feature and integration variability across cloud contexts.
+- PowerShell 7.6 LTS lifecycle support.
 
-Primary sources to capture before the full draft:
-
-- Current FortiCNAPP product overview and naming.
-- Current FortiCNAPP API documentation entry point.
-- Current Lacework FortiCNAPP CLI documentation and version support.
-- Current LQL overview and datasource discovery guidance.
-- PowerShell 7.6 lifecycle and support documentation.
-
-Every source record will include title, publisher, version or publication date, access date, supported claim, and revalidation trigger.
+Tenant-specific integrations, permissions, schemas, datasources, freshness, and observed results remain `VERIFY IN TENANT`.
 
 ## Repository traceability
 
 | Chapter element | Repository artifact |
 |---|---|
+| Full chapter draft | `manuscript/chapters/01-FORTICNAPP-AND-THE-CLOUD-RISK-PROBLEM.md` |
+| Primary source register | `docs/source-register/CHAPTER-01.md` |
 | Evidence vocabulary | `docs/reference/EVIDENCE-LABELS.md` |
 | Scope-register data | `tests/Fixtures/Synthetic/chapter-01-scope-register.json` |
 | Lab calculation | `examples/foundations/Review-SyntheticScopeRegister.ps1` |
 | Fixture contract | `tests/Contract/SyntheticScopeFixture.Tests.ps1` |
+| Chapter contract | `tests/Content/Chapter01.Tests.ps1` |
 | Repository controls | `tests/Content/Repository.Tests.ps1` |
 
-## Drafting cautions
+## Preserved cautions
 
-- Do not describe the synthetic platform list as proof of current FortiCNAPP support.
-- Do not use an observed count without its denominator.
-- Do not merge stale and missing evidence.
-- Do not treat exclusion from the denominator as successful coverage.
-- Do not claim the CISO needs fewer details; the executive view needs different details.
-- Do not introduce authentication or endpoint code before Chapters 5 and 6.
+- The synthetic platform list is not proof of current feature support.
+- An observed count requires its denominator.
+- Stale and missing evidence remain separate.
+- Exclusion from the denominator is not successful coverage.
+- The executive view uses the same underlying facts as the engineer view.
+- Authentication and endpoint implementation remain outside Chapter 1.
 
 ## Completion gate
 
-The chapter can move from production notes to complete draft after:
+The chapter can be marked complete after:
 
-- Current official product and interface sources are recorded.
-- The lab runs on Windows, Linux, and macOS under PowerShell 7.6.
-- The fixture and example tests pass.
-- The chapter uses the approved twenty-part anatomy.
-- Editorial and technical reviews accept the distinction between scope, evidence, and risk.
+- Current branch checks pass on Windows, Ubuntu, and macOS.
+- The chapter contract confirms the twenty-part anatomy and production word range.
+- Editorial review accepts the voice and beginner progression.
+- Technical review accepts the scope, evidence, and metric distinctions.
+- Author approval is recorded.
