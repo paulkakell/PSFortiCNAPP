@@ -1,0 +1,62 @@
+<!-- SPDX-FileCopyrightText: 2026 Paul Kell -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<Configuration>
+  <ViewDefinitions>
+    <View>
+      <Name>PSFortiCNAPP.ModuleInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>PSFortiCNAPP.ModuleInfo</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>Name</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Version</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Minimum PowerShell</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Distribution</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem><PropertyName>Name</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Version</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>MinimumPowerShellVersion</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Distribution</PropertyName></TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>PSFortiCNAPP.EnvironmentReadiness</Name>
+      <ViewSelectedBy>
+        <TypeName>PSFortiCNAPP.EnvironmentReadiness</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>Ready</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Complete</Label></TableColumnHeader>
+          <TableColumnHeader><Label>OS</Label></TableColumnHeader>
+          <TableColumnHeader><Label>PowerShell</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Passed</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Warnings</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Failed</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Workspace</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem><PropertyName>Ready</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Complete</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>OperatingSystem</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>PowerShellVersion</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>PassCount</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>WarningCount</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>FailCount</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>WorkspacePath</PropertyName></TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+  </ViewDefinitions>
+</Configuration>
