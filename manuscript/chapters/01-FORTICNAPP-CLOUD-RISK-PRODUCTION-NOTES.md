@@ -5,15 +5,17 @@
 
 ## Status
 
-Full chapter draft implemented on `phase2/chapter-01`.
+The commercial Chapter 1 draft is complete as a publishing asset. The active public repository contains only its companion artifacts, source register, tests, and these production notes.
 
-Remaining gates:
+Completed public gates:
 
-- Cross-platform continuous integration on the chapter branch.
-- Editorial review.
-- Technical review.
-- Author approval.
-- Merge after the Phase 2 foundation reaches `main`.
+- Cross-platform continuous integration.
+- Synthetic fixture and calculation tests.
+- Source-register review.
+- U+2014 validation.
+- Repository boundary correction.
+
+Editorial, publisher, and final technical review remain manuscript activities outside the public repository.
 
 ## Chapter purpose
 
@@ -21,7 +23,7 @@ Establish that cloud-security automation is trustworthy only when it identifies 
 
 ## Implemented reader outcomes
 
-The draft teaches the reader to:
+The chapter teaches the reader to:
 
 1. Distinguish visibility, evidence, finding, risk, and decision.
 2. Explain why a console count is not automatically a complete metric.
@@ -68,13 +70,14 @@ Tenant-specific integrations, permissions, schemas, datasources, freshness, and 
 
 | Chapter element | Repository artifact |
 |---|---|
-| Full chapter draft | `manuscript/chapters/01-FORTICNAPP-AND-THE-CLOUD-RISK-PROBLEM.md` |
+| Production record | `manuscript/chapters/01-FORTICNAPP-CLOUD-RISK-PRODUCTION-NOTES.md` |
 | Primary source register | `docs/source-register/CHAPTER-01.md` |
 | Evidence vocabulary | `docs/reference/EVIDENCE-LABELS.md` |
 | Scope-register data | `tests/Fixtures/Synthetic/chapter-01-scope-register.json` |
 | Lab calculation | `examples/foundations/Review-SyntheticScopeRegister.ps1` |
 | Fixture contract | `tests/Contract/SyntheticScopeFixture.Tests.ps1` |
-| Chapter contract | `tests/Content/Chapter01.Tests.ps1` |
+| Public artifact contract | `tests/Content/Chapter01.Tests.ps1` |
+| Manuscript boundary contract | `tests/Content/ManuscriptBoundary.Tests.ps1` |
 | Repository controls | `tests/Content/Repository.Tests.ps1` |
 
 ## Preserved cautions
@@ -86,12 +89,6 @@ Tenant-specific integrations, permissions, schemas, datasources, freshness, and 
 - The executive view uses the same underlying facts as the engineer view.
 - Authentication and endpoint implementation remain outside Chapter 1.
 
-## Completion gate
+## Completion record
 
-The chapter can be marked complete after:
-
-- Current branch checks pass on Windows, Ubuntu, and macOS.
-- The chapter contract confirms the twenty-part anatomy and production word range.
-- Editorial review accepts the voice and beginner progression.
-- Technical review accepts the scope, evidence, and metric distinctions.
-- Author approval is recorded.
+Public companion artifacts are complete for the current baseline. The commercial chapter remains subject to editorial, publisher, and final technical review outside the public repository.
