@@ -15,7 +15,7 @@ PSFortiCNAPP is an independent community open-source project maintained in `paul
 
 ## Current status
 
-The project is in Phase 2 chapter and repository production. The foundation and Chapter 1 companion artifacts are on `main`. The Chapter 2 public companion increment is under review.
+The project is in Phase 2 chapter and repository production. The foundation plus the Chapter 1 and Chapter 2 public companion artifacts are on `main`.
 
 The current module is loadable and tested, but it intentionally contains no live FortiCNAPP authentication, endpoint, or LQL implementation. Provider-facing behavior remains `VERIFY IN TENANT` until its official source, access requirements, response contract, failure behavior, and controlled validation are recorded.
 
@@ -74,11 +74,12 @@ The project will teach a PowerShell beginner how to build production-minded Fort
 - `docs/project/`: binding project architecture and status.
 - `docs/reference/`: reusable evidence and command references.
 - `docs/source-register/`: first-party source records and non-redistributed source snapshot metadata.
+- `docs/verification/`: machine-readable verification records.
 - `manuscript/outline/`: separately copyrighted planning outline.
 - `manuscript/sample/`: the approved Phase 1 sample.
-- `manuscript/chapters/`: production notes and one documented legacy Chapter 1 file.
+- `manuscript/chapters/`: production notes and short publishing-asset notices only.
 
-Complete commercial chapters are maintained outside the public companion repository. GitHub issue #6 tracks the legacy Chapter 1 correction. See `docs/project/MANUSCRIPT-REPOSITORY-BOUNDARY.md`.
+Complete commercial chapters are maintained outside the public companion repository. See `docs/project/MANUSCRIPT-REPOSITORY-BOUNDARY.md`.
 
 ## Governance
 

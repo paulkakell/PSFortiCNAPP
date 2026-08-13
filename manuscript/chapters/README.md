@@ -3,10 +3,10 @@
 
 # Chapter Production Notes
 
-This directory is reserved for production notes and chapter-to-repository traceability.
+This directory contains production notes, chapter-to-repository traceability, and short publishing-asset notices only.
 
-A legacy complete Chapter 1 file predates the current public-content boundary and is tracked in GitHub issue #6. No complete Chapter 2 or later manuscript is permitted here.
+Complete commercial chapter manuscripts are maintained outside the active public tree of `paulkakell/PSFortiCNAPP`.
 
-A permitted production-note filename ends in `-PRODUCTION-NOTES.md`.
+A permitted production-note filename ends in `-PRODUCTION-NOTES.md`. A numbered chapter path may contain only a short publishing-asset notice that directs readers to the public companion artifacts.
 
 The governing boundary is documented in `docs/project/MANUSCRIPT-REPOSITORY-BOUNDARY.md`.
