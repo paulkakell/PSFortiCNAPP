@@ -10,8 +10,15 @@ Describe 'Chapter file boundary' {
 
     It 'contains no complete chapter after Chapter 1' {
         $files = @(Get-ChildItem -LiteralPath $script:ChapterDirectory -File -Filter '*.md')
-        $unexpected = @($files | Where-Object { $_.Name -match '^0[2-9]-' -and $_.Name -notmatch '-PRODUCTION-NOTES\.md$' })
-        $unexpected.FullName | Should -BeNullOrEmpty
+        $unexpected = @(
+            $files |
+                Where-Object {
+                    $_.Name -match '^0[2-9]-' -and
+                    $_.Name -notmatch '-PRODUCTION-NOTES\.md$'
+                }
+        )
+
+        $unexpected.Count | Should -Be 0
     }
 
     It 'records the current boundary follow-up' {
