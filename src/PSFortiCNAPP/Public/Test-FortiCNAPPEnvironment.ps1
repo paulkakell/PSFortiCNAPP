@@ -163,7 +163,7 @@ function Test-FortiCNAPPEnvironment {
                 'PSFortiCNAPP readiness probe',
                 [System.Text.UTF8Encoding]::new($false)
             )
-            $probe = Get-Item -LiteralPath $probePath -ErrorAction Stop
+            $probe = Get-Item -LiteralPath $probePath -Force -ErrorAction Stop
             if ($probe.Length -gt 0) {
                 $checks.Add((ConvertTo-FortiCNAPPReadinessCheck `
                     -Name 'WorkspaceWrite' `
