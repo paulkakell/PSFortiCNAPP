@@ -58,5 +58,35 @@
         </TableRowEntries>
       </TableControl>
     </View>
+    <View>
+      <Name>PSFortiCNAPP.EvidenceRecord</Name>
+      <ViewSelectedBy>
+        <TypeName>PSFortiCNAPP.EvidenceRecord</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>Severity</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Status</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Evidence</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Domain</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Cloud</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Resource</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Title</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem><PropertyName>Severity</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Status</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>EvidenceState</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Domain</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>CloudProvider</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>ResourceId</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Title</PropertyName></TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
   </ViewDefinitions>
 </Configuration>
