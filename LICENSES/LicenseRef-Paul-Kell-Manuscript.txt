@@ -1,0 +1,5 @@
+Copyright 2026 Paul Kell. All rights reserved.
+
+This notice applies to files marked with SPDX-License-Identifier: LicenseRef-Paul-Kell-Manuscript.
+
+No license is granted to reproduce, distribute, publish, adapt, translate, or create derivative works from the marked manuscript material, except as permitted by applicable law or with prior written permission from the copyright owner. Rights necessary for GitHub to host and display repository content are governed by GitHub's applicable terms.
