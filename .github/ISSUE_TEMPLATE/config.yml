@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: 2026 Paul Kell
+# SPDX-License-Identifier: CC-BY-4.0
+
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/paulkakell/PSFortiCNAPP/security
+    about: Review SECURITY.md and use a private advisory instead of a public issue.

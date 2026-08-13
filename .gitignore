@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2026 Paul Kell
+# SPDX-License-Identifier: Apache-2.0
+
+artifacts/
+TestResults/
+coverage.xml
+*.clixml
+*.nupkg
+*.zip
+*.sha256
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.pfx
+*.p12
+local.settings.json
+*.user.json
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+bin/
+obj/
