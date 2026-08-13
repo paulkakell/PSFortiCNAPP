@@ -11,9 +11,43 @@ Author: Paul Kell
 
 ## Current status
 
-The project is in Phase 1: Editorial, Technical, Licensing, and Repository Blueprint.
+The project is in Phase 2 foundation development. Phase 1 established the book, technical, verification, licensing, and repository blueprint. The current module is loadable and tested, but it intentionally contains no live FortiCNAPP authentication, endpoint, or LQL implementation.
 
-Phase 1 defines the book promise, reader personas, instructional structure, module architecture, verification rules, executive metrics, repository layout, and release model. It does not yet contain the production module or the complete manuscript.
+Provider-facing behavior remains `VERIFY IN TENANT` until its official source, access requirements, response contract, failure behavior, and controlled validation are recorded.
+
+## Foundation commands
+
+```powershell
+Import-Module ./src/PSFortiCNAPP/PSFortiCNAPP.psd1 -Force
+
+Get-FortiCNAPPModuleInfo
+Test-FortiCNAPPEnvironment -WorkspacePath $PWD
+```
+
+- `Get-FortiCNAPPModuleInfo` returns module, runtime, platform, distribution, project, and licensing metadata without a network call.
+- `Test-FortiCNAPPEnvironment` returns a non-sensitive readiness object for PowerShell, operating system, workspace, and write access.
+
+## Development setup
+
+PowerShell 7.6 or later is required.
+
+```powershell
+pwsh ./build/Install-Dependencies.ps1
+pwsh ./build/Invoke-Quality.ps1
+pwsh ./build/Package.ps1 -Clean
+```
+
+The quality command runs PSScriptAnalyzer, Pester with coverage, module-manifest validation, SPDX checks, the U+2014 prohibition, and repository credential-pattern checks.
+
+The package command creates a development ZIP and SHA-256 file under `artifacts/package`. Public distribution will use GitHub Releases only after release gates are complete.
+
+## Synthetic Chapter 1 lab
+
+```powershell
+pwsh ./examples/foundations/Review-SyntheticScopeRegister.ps1
+```
+
+The lab calculates current observed coverage from an invented Kestrel Vale Health Services scope register. It distinguishes observed, missing, stale, and excluded evidence and states the denominator. It is not proof of FortiCNAPP product behavior.
 
 ## Project goals
 
@@ -23,31 +57,24 @@ The project will teach a PowerShell beginner how to build production-minded Fort
 - Uses LQL only after the datasource, fields, syntax, and behavior have been verified.
 - Preserves evidence lineage from source through transformation and reporting.
 - Produces useful objects for engineers and defensible metrics for security leaders.
-- Covers AWS, Azure, GCP, Kubernetes, containers, hosts, identities, compliance, vulnerabilities, and threat evidence.
+- Covers AWS, Azure, Google Cloud, Kubernetes, containers, hosts, identities, compliance, vulnerabilities, and threat evidence.
 - Ships through GitHub Releases. PowerShell Gallery publication is intentionally excluded.
 
-## Phase 1 contents
+## Project structure
 
-- `docs/project/CURRENT-STATE-ANALYSIS.md`: repository and instruction analysis.
-- `docs/project/BOOK-BIBLE.md`: binding editorial and technical rules.
-- `docs/project/EDITORIAL-BLUEPRINT.md`: market promise, personas, pedagogy, and manuscript standards.
-- `docs/project/TECHNICAL-BLUEPRINT.md`: module, API, LQL, security, testing, and reliability architecture.
-- `docs/project/REPOSITORY-BLUEPRINT.md`: target tree, workflow, versioning, and release assets.
-- `docs/project/SOURCE-HIERARCHY.md`: approved evidence sources and version controls.
-- `docs/project/VERIFICATION-LEDGER.md`: initial tenant-validation register.
-- `docs/project/EXECUTIVE-METRICS.md`: transparent CISO reporting framework.
-- `docs/project/ROADMAP.md`: phase sequence and acceptance gates.
-- `docs/project/PHASE-1-REVIEW-CHECKLIST.md`: approval checklist and open decisions.
-- `manuscript/outline/MASTER-OUTLINE.md`: six-part, sixteen-chapter, six-appendix outline.
-- `manuscript/sample/PHASE-1-SAMPLE.md`: required sample section.
-- `tools/Test-ProhibitedCharacters.ps1`: repository check for Unicode U+2014.
+- `src/PSFortiCNAPP/`: module source.
+- `tests/`: unit, contract, content, integration, and fixture areas.
+- `build/`: dependency, quality, build, test, and package scripts.
+- `tools/`: repository policy scanners.
+- `examples/`: executable synthetic and sanitized examples.
+- `docs/project/`: binding project architecture and status.
+- `docs/reference/`: reusable evidence and command references.
+- `manuscript/`: separately copyrighted outline, production notes, samples, and chapters.
+
+## Governance
+
+Read `CONTRIBUTING.md`, `SECURITY.md`, `SUPPORT.md`, and `CODE_OF_CONDUCT.md` before opening a pull request or issue. Public contributions must exclude credentials and protected tenant data.
 
 ## Licensing
 
 This is a multi-license repository. Executable material is Apache-2.0, project documentation and diagrams are CC BY 4.0, and manuscript material is separately copyrighted. See `LICENSE` and `LICENSE-SCOPE.md` before reusing content.
-
-## Technical claim policy
-
-An endpoint path, request body, response field, pagination mechanism, rate limit, datasource, LQL field, or product behavior must not be represented as production fact until it is supported by an approved official source and, where tenant behavior can vary, validated in a controlled FortiCNAPP tenant.
-
-Unresolved claims are marked `VERIFY IN TENANT` and tracked in the verification ledger.

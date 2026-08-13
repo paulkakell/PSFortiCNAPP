@@ -1,0 +1,84 @@
+{
+  "spdxFileCopyrightText": "2026 Paul Kell",
+  "spdxLicenseIdentifier": "Apache-2.0",
+  "schemaVersion": "1.0",
+  "dataClassification": "Synthetic",
+  "organization": "Kestrel Vale Health Services",
+  "purpose": "Chapter 1 cloud-scope and evidence-gap lab",
+  "asOfUtc": "2026-08-13T00:00:00Z",
+  "denominatorDefinition": "Scopes where expectedInFortiCNAPP is true",
+  "scopes": [
+    {
+      "scopeId": "aws-clinical-production",
+      "platform": "AWS",
+      "scopeType": "CloudAccount",
+      "environment": "Production",
+      "businessService": "Clinical Integration",
+      "owner": "Cloud Platform",
+      "expectedInFortiCNAPP": true,
+      "evidenceState": "Observed",
+      "lastObservedUtc": "2026-08-12T22:15:00Z",
+      "notes": "Synthetic current scope."
+    },
+    {
+      "scopeId": "azure-analytics-production",
+      "platform": "Azure",
+      "scopeType": "Subscription",
+      "environment": "Production",
+      "businessService": "Clinical Analytics",
+      "owner": "Data Platform",
+      "expectedInFortiCNAPP": true,
+      "evidenceState": "Missing",
+      "lastObservedUtc": null,
+      "notes": "Synthetic evidence gap requiring investigation."
+    },
+    {
+      "scopeId": "gcp-research-shared",
+      "platform": "GoogleCloud",
+      "scopeType": "Project",
+      "environment": "Shared",
+      "businessService": "Research Workspace",
+      "owner": "Research Technology",
+      "expectedInFortiCNAPP": true,
+      "evidenceState": "Stale",
+      "lastObservedUtc": "2026-07-20T13:00:00Z",
+      "notes": "Synthetic record older than the lab freshness threshold."
+    },
+    {
+      "scopeId": "kubernetes-clinical-east",
+      "platform": "Kubernetes",
+      "scopeType": "Cluster",
+      "environment": "Production",
+      "businessService": "Clinical Integration",
+      "owner": "Container Platform",
+      "expectedInFortiCNAPP": true,
+      "evidenceState": "Observed",
+      "lastObservedUtc": "2026-08-12T23:10:00Z",
+      "notes": "Synthetic current cluster."
+    },
+    {
+      "scopeId": "registry-enterprise-images",
+      "platform": "ContainerRegistry",
+      "scopeType": "Registry",
+      "environment": "Shared",
+      "businessService": "Enterprise Container Supply Chain",
+      "owner": "Container Platform",
+      "expectedInFortiCNAPP": true,
+      "evidenceState": "Observed",
+      "lastObservedUtc": "2026-08-12T21:45:00Z",
+      "notes": "Synthetic current registry."
+    },
+    {
+      "scopeId": "azure-training-sandbox",
+      "platform": "Azure",
+      "scopeType": "Subscription",
+      "environment": "Training",
+      "businessService": "Engineering Training",
+      "owner": "Learning Services",
+      "expectedInFortiCNAPP": false,
+      "evidenceState": "Excluded",
+      "lastObservedUtc": null,
+      "notes": "Synthetic scope excluded from the coverage denominator."
+    }
+  ]
+}

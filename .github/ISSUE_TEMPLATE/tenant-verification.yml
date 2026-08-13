@@ -1,0 +1,49 @@
+# SPDX-FileCopyrightText: 2026 Paul Kell
+# SPDX-License-Identifier: CC-BY-4.0
+
+name: Tenant verification
+description: Track a controlled validation item without publishing protected evidence.
+title: "[Verify]: "
+labels: []
+body:
+  - type: input
+    id: ledger
+    attributes:
+      label: Verification-ledger ID
+      placeholder: V-001
+    validations:
+      required: true
+  - type: input
+    id: claim
+    attributes:
+      label: Claim to validate
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Official source and version
+    validations:
+      required: true
+  - type: textarea
+    id: method
+    attributes:
+      label: Controlled method
+      description: Describe the sanitized method, not real environment identifiers.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+    validations:
+      required: true
+  - type: checkboxes
+    id: storage
+    attributes:
+      label: Evidence handling
+      options:
+        - label: Protected evidence will remain outside the public repository.
+          required: true
+        - label: Any public fixture or summary will be synthetic or sanitized.
+          required: true

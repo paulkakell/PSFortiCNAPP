@@ -5,9 +5,9 @@
 
 ## Phase 1: Editorial, Technical, Licensing, and Repository Blueprint
 
-Status: In progress
+Status: Approved on August 13, 2026, with controlled-tenant and independent-review items remaining open.
 
-Deliverables:
+Delivered:
 
 - Current-state and instruction analysis.
 - Market promise and reader personas.
@@ -20,19 +20,15 @@ Deliverables:
 - Fictional case-study specification.
 - Source hierarchy and verification ledger.
 - Executive metric framework.
-- Split-license implementation plan.
+- Split-license implementation.
 - Repository tree and workflow blueprint.
 - A 1,000 to 1,500 word sample section.
 
-Exit criteria:
-
-- All Phase 1 documents agree on title, scope, audience, structure, licensing, and distribution.
-- The license migration is approved before code or manuscript expansion.
-- The sample demonstrates the approved voice and evidence standard.
-- Open technical claims are visible in the verification ledger.
-- The Phase 1 checklist is accepted.
+Open nonblocking items remain recorded in `PHASE-1-REVIEW-CHECKLIST.md`.
 
 ## Phase 2: Chapter and Module Production
+
+Status: Foundation in progress.
 
 Method: one chapter at a time after approval of the prior chapter and its repository artifacts.
 
@@ -46,6 +42,14 @@ For each chapter:
 6. Run technical, editorial, license, privacy, and prohibited-character checks.
 7. Review the chapter and repository diff together.
 8. Record an approved chapter baseline.
+
+Current foundation increment:
+
+- Governance and contribution controls.
+- Loadable PowerShell 7.6 module scaffold.
+- Non-network environment and module-information commands.
+- Chapter 1 synthetic scope-register lab.
+- Pester, PSScriptAnalyzer, packaging, and CI foundations.
 
 Suggested production sequence:
 

@@ -1,0 +1,67 @@
+# SPDX-FileCopyrightText: 2026 Paul Kell
+# SPDX-License-Identifier: Apache-2.0
+
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: PowerShell 7.6 on ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Confirm PowerShell baseline
+        shell: pwsh
+        run: |
+          if ($PSVersionTable.PSVersion -lt [version]'7.6.0') {
+              throw "PowerShell 7.6 or later is required; runner has $($PSVersionTable.PSVersion)."
+          }
+          $PSVersionTable
+
+      - name: Install pinned development dependencies
+        shell: pwsh
+        run: ./build/Install-Dependencies.ps1
+
+      - name: Run repository quality gates
+        shell: pwsh
+        run: ./build/Invoke-Quality.ps1 -CI
+
+      - name: Build development package
+        shell: pwsh
+        run: ./build/Package.ps1 -Clean
+
+      - name: Upload Linux package and test evidence
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: psforticnapp-foundation
+          path: |
+            artifacts/package/
+            artifacts/test-results.xml
+            artifacts/coverage.xml
+          if-no-files-found: error
+          retention-days: 14
