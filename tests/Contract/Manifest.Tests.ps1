@@ -17,10 +17,11 @@ Describe 'PSFortiCNAPP module manifest contract' {
         $script:Manifest.CompatiblePSEditions | Should -Contain 'Core'
     }
 
-    It 'exports exactly the approved foundation functions' {
+    It 'exports exactly the approved Chapter 3 functions' {
         $functions = @($script:Manifest.ExportedFunctions.Keys | Sort-Object)
 
-        $functions | Should -HaveCount 2
+        $functions | Should -HaveCount 3
+        $functions | Should -Contain 'ConvertTo-FortiCNAPPEvidenceRecord'
         $functions | Should -Contain 'Get-FortiCNAPPModuleInfo'
         $functions | Should -Contain 'Test-FortiCNAPPEnvironment'
     }
