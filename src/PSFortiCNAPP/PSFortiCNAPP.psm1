@@ -25,6 +25,7 @@ foreach ($file in $publicFiles) {
 }
 
 $publicFunctions = @(
+    'ConvertFrom-FortiCNAPPHttpExchange'
     'ConvertTo-FortiCNAPPEvidenceRecord'
     'Get-FortiCNAPPModuleInfo'
     'Test-FortiCNAPPEnvironment'
