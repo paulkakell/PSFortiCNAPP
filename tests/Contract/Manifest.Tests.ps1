@@ -27,21 +27,25 @@ Describe 'PSFortiCNAPP module manifest contract' {
             Should -Contain 'Core'
     }
 
-    It 'exports exactly the approved Chapter 4 functions' {
+    It 'exports exactly the approved Chapter 5 functions' {
         $functions = @(
             $script:Manifest.ExportedFunctions.Keys |
                 Sort-Object
         )
+        $expected = @(
+            'Connect-FortiCNAPP'
+            'ConvertFrom-FortiCNAPPHttpExchange'
+            'ConvertTo-FortiCNAPPEvidenceRecord'
+            'Disconnect-FortiCNAPP'
+            'Get-FortiCNAPPContext'
+            'Get-FortiCNAPPModuleInfo'
+            'New-FortiCNAPPConfiguration'
+            'Test-FortiCNAPPConfiguration'
+            'Test-FortiCNAPPEnvironment'
+        ) | Sort-Object
 
-        $functions | Should -HaveCount 4
-        $functions |
-            Should -Contain 'ConvertFrom-FortiCNAPPHttpExchange'
-        $functions |
-            Should -Contain 'ConvertTo-FortiCNAPPEvidenceRecord'
-        $functions |
-            Should -Contain 'Get-FortiCNAPPModuleInfo'
-        $functions |
-            Should -Contain 'Test-FortiCNAPPEnvironment'
+        $functions | Should -HaveCount 9
+        $functions | Should -Be $expected
     }
 
     It 'contains project and license metadata' {
