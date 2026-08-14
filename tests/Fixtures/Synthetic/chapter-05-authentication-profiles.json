@@ -1,0 +1,60 @@
+{
+  "spdxFileCopyrightText": "2026 Paul Kell",
+  "spdxLicenseIdentifier": "Apache-2.0",
+  "schemaVersion": "1.0",
+  "dataClassification": "Synthetic",
+  "organization": "Kestrel Vale Health Services",
+  "purpose": "Chapter 5 authentication configuration validation",
+  "profiles": [
+    {
+      "profileId": "syn-auth-valid-derived",
+      "expectedValid": true,
+      "environmentName": "Synthetic Production",
+      "accountName": "kestrel-production",
+      "baseUri": "https://kestrel-production.lacework.net/",
+      "tokenEndpoint": "https://kestrel-production.lacework.net/api/v2/access/tokens",
+      "keyId": "SYNTHETIC_KEY_0001",
+      "tokenLifetimeSeconds": 3600
+    },
+    {
+      "profileId": "syn-auth-valid-reserved",
+      "expectedValid": true,
+      "environmentName": "Synthetic Training",
+      "accountName": "training",
+      "baseUri": "https://tenant.example.invalid/",
+      "tokenEndpoint": "https://tenant.example.invalid/api/v2/access/tokens",
+      "keyId": "SYNTHETIC_KEY_0002",
+      "tokenLifetimeSeconds": 900
+    },
+    {
+      "profileId": "syn-auth-invalid-http",
+      "expectedValid": false,
+      "environmentName": "Invalid HTTP",
+      "accountName": "training",
+      "baseUri": "http://tenant.example.invalid/",
+      "tokenEndpoint": "http://tenant.example.invalid/api/v2/access/tokens",
+      "keyId": "SYNTHETIC_KEY_0003",
+      "tokenLifetimeSeconds": 900
+    },
+    {
+      "profileId": "syn-auth-invalid-key",
+      "expectedValid": false,
+      "environmentName": "Missing Key",
+      "accountName": "training",
+      "baseUri": "https://tenant.example.invalid/",
+      "tokenEndpoint": "https://tenant.example.invalid/api/v2/access/tokens",
+      "keyId": "",
+      "tokenLifetimeSeconds": 900
+    },
+    {
+      "profileId": "syn-auth-invalid-endpoint",
+      "expectedValid": false,
+      "environmentName": "Wrong Endpoint",
+      "accountName": "training",
+      "baseUri": "https://tenant.example.invalid/",
+      "tokenEndpoint": "https://tenant.example.invalid/api/v2/not-a-token-route",
+      "keyId": "SYNTHETIC_KEY_0005",
+      "tokenLifetimeSeconds": 900
+    }
+  ]
+}
