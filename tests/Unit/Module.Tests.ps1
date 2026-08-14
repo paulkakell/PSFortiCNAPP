@@ -26,22 +26,26 @@ Describe 'PSFortiCNAPP module foundation' {
         $module.Name | Should -Be 'PSFortiCNAPP'
     }
 
-    It 'exports only the approved Chapter 4 commands' {
+    It 'exports only the approved Chapter 5 commands' {
         $commands = @(
             Get-Command -Module PSFortiCNAPP |
                 Select-Object -ExpandProperty Name |
                 Sort-Object
         )
+        $expected = @(
+            'Connect-FortiCNAPP'
+            'ConvertFrom-FortiCNAPPHttpExchange'
+            'ConvertTo-FortiCNAPPEvidenceRecord'
+            'Disconnect-FortiCNAPP'
+            'Get-FortiCNAPPContext'
+            'Get-FortiCNAPPModuleInfo'
+            'New-FortiCNAPPConfiguration'
+            'Test-FortiCNAPPConfiguration'
+            'Test-FortiCNAPPEnvironment'
+        ) | Sort-Object
 
-        $commands | Should -HaveCount 4
-        $commands |
-            Should -Contain 'ConvertFrom-FortiCNAPPHttpExchange'
-        $commands |
-            Should -Contain 'ConvertTo-FortiCNAPPEvidenceRecord'
-        $commands |
-            Should -Contain 'Get-FortiCNAPPModuleInfo'
-        $commands |
-            Should -Contain 'Test-FortiCNAPPEnvironment'
+        $commands | Should -HaveCount 9
+        $commands | Should -Be $expected
     }
 
     It 'returns typed module information without a network call' {
