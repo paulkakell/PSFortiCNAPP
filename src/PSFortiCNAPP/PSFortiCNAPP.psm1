@@ -20,14 +20,25 @@ foreach ($file in $privateFiles) {
     . $file.FullName
 }
 
+if ($null -eq (Get-Variable -Name FortiCNAPPSessionStore -Scope Script -ErrorAction SilentlyContinue)) {
+    $script:FortiCNAPPSessionStore = [System.Collections.Generic.Dictionary[string, object]]::new(
+        [System.StringComparer]::Ordinal
+    )
+}
+
 foreach ($file in $publicFiles) {
     . $file.FullName
 }
 
 $publicFunctions = @(
+    'Connect-FortiCNAPP'
     'ConvertFrom-FortiCNAPPHttpExchange'
     'ConvertTo-FortiCNAPPEvidenceRecord'
+    'Disconnect-FortiCNAPP'
+    'Get-FortiCNAPPContext'
     'Get-FortiCNAPPModuleInfo'
+    'New-FortiCNAPPConfiguration'
+    'Test-FortiCNAPPConfiguration'
     'Test-FortiCNAPPEnvironment'
 )
 
