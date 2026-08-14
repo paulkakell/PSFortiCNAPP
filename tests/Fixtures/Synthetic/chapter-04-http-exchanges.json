@@ -1,0 +1,104 @@
+{
+  "spdxFileCopyrightText": "2026 Paul Kell",
+  "spdxLicenseIdentifier": "Apache-2.0",
+  "schemaVersion": "1.0",
+  "dataClassification": "Synthetic",
+  "organization": "Kestrel Vale Health Services",
+  "purpose": "Chapter 4 HTTP, JSON, and API contract lab",
+  "exchanges": [
+    {
+      "exchangeId": "syn-http-200-json",
+      "method": "GET",
+      "requestUri": "https://tenant.example.invalid/api/v2/example?limit=25&cursor=synthetic-cursor",
+      "startedAtUtc": "2026-08-13T20:00:00.000Z",
+      "completedAtUtc": "2026-08-13T20:00:00.125Z",
+      "statusCode": 200,
+      "reasonPhrase": "OK",
+      "responseContentType": "application/json; charset=utf-8",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "X-Request-Id": "syn-request-001",
+        "RateLimit-Remaining": "479",
+        "Authorization": "Synthetic value intentionally omitted"
+      },
+      "responseBody": "{\"data\":[{\"id\":\"syn-asset-001\",\"state\":\"Observed\"}],\"paging\":{\"nextPage\":null}}"
+    },
+    {
+      "exchangeId": "syn-http-204-empty",
+      "method": "GET",
+      "requestUri": "https://tenant.example.invalid/api/v2/example/empty",
+      "startedAtUtc": "2026-08-13T20:01:00.000Z",
+      "completedAtUtc": "2026-08-13T20:01:00.040Z",
+      "statusCode": 204,
+      "reasonPhrase": "No Content",
+      "responseContentType": null,
+      "headers": {
+        "X-Request-Id": "syn-request-002"
+      },
+      "responseBody": ""
+    },
+    {
+      "exchangeId": "syn-http-429-json",
+      "method": "POST",
+      "requestUri": "https://tenant.example.invalid/api/v2/example/search",
+      "startedAtUtc": "2026-08-13T20:02:00.000Z",
+      "completedAtUtc": "2026-08-13T20:02:00.090Z",
+      "statusCode": 429,
+      "reasonPhrase": "Too Many Requests",
+      "responseContentType": "application/problem+json",
+      "headers": {
+        "Content-Type": "application/problem+json",
+        "X-Request-Id": "syn-request-003",
+        "Retry-After": "30",
+        "RateLimit-Remaining": "0"
+      },
+      "responseBody": "{\"errorCode\":\"RateLimitExceeded\",\"message\":\"Synthetic request limit reached\"}"
+    },
+    {
+      "exchangeId": "syn-http-503-html",
+      "method": "GET",
+      "requestUri": "https://tenant.example.invalid/api/v2/example",
+      "startedAtUtc": "2026-08-13T20:03:00.000Z",
+      "completedAtUtc": "2026-08-13T20:03:00.350Z",
+      "statusCode": 503,
+      "reasonPhrase": "Service Unavailable",
+      "responseContentType": "text/html",
+      "headers": {
+        "Content-Type": "text/html",
+        "X-Request-Id": "syn-request-004"
+      },
+      "responseBody": "<html><body>Synthetic upstream service page</body></html>"
+    },
+    {
+      "exchangeId": "syn-http-200-malformed-json",
+      "method": "GET",
+      "requestUri": "https://tenant.example.invalid/api/v2/example/malformed",
+      "startedAtUtc": "2026-08-13T20:04:00.000Z",
+      "completedAtUtc": "2026-08-13T20:04:00.060Z",
+      "statusCode": 200,
+      "reasonPhrase": "OK",
+      "responseContentType": "application/json",
+      "headers": {
+        "Content-Type": "application/json",
+        "X-Request-Id": "syn-request-005"
+      },
+      "responseBody": "{\"data\":["
+    },
+    {
+      "exchangeId": "syn-http-200-text",
+      "method": "GET",
+      "requestUri": "https://tenant.example.invalid/api/v2/example/text",
+      "startedAtUtc": "2026-08-13T20:05:00.000Z",
+      "completedAtUtc": "2026-08-13T20:05:00.055Z",
+      "statusCode": 200,
+      "reasonPhrase": "OK",
+      "responseContentType": "text/plain",
+      "headers": {
+        "Content-Type": "text/plain",
+        "X-Request-Id": "syn-request-006",
+        "X-Unmodeled-Header": "synthetic"
+      },
+      "responseBody": "Synthetic plain-text response"
+    }
+  ]
+}

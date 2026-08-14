@@ -2,8 +2,15 @@
 # SPDX-License-Identifier: Apache-2.0
 
 BeforeAll {
-    $script:RepositoryRoot = (Resolve-Path -LiteralPath (Join-Path -Path $PSScriptRoot -ChildPath '../..')).Path
-    $script:ManifestPath = Join-Path -Path $script:RepositoryRoot -ChildPath 'src/PSFortiCNAPP/PSFortiCNAPP.psd1'
+    $script:RepositoryRoot = (
+        Resolve-Path -LiteralPath (
+            Join-Path -Path $PSScriptRoot -ChildPath '../..'
+        )
+    ).Path
+    $script:ManifestPath = Join-Path `
+        -Path $script:RepositoryRoot `
+        -ChildPath 'src/PSFortiCNAPP/PSFortiCNAPP.psd1'
+
     Remove-Module -Name PSFortiCNAPP -Force -ErrorAction SilentlyContinue
     Import-Module -Name $script:ManifestPath -Force -ErrorAction Stop
 }
@@ -19,28 +26,36 @@ Describe 'PSFortiCNAPP module foundation' {
         $module.Name | Should -Be 'PSFortiCNAPP'
     }
 
-    It 'exports only the approved Chapter 3 commands' {
+    It 'exports only the approved Chapter 4 commands' {
         $commands = @(
             Get-Command -Module PSFortiCNAPP |
                 Select-Object -ExpandProperty Name |
                 Sort-Object
         )
 
-        $commands | Should -HaveCount 3
-        $commands | Should -Contain 'ConvertTo-FortiCNAPPEvidenceRecord'
-        $commands | Should -Contain 'Get-FortiCNAPPModuleInfo'
-        $commands | Should -Contain 'Test-FortiCNAPPEnvironment'
+        $commands | Should -HaveCount 4
+        $commands |
+            Should -Contain 'ConvertFrom-FortiCNAPPHttpExchange'
+        $commands |
+            Should -Contain 'ConvertTo-FortiCNAPPEvidenceRecord'
+        $commands |
+            Should -Contain 'Get-FortiCNAPPModuleInfo'
+        $commands |
+            Should -Contain 'Test-FortiCNAPPEnvironment'
     }
 
     It 'returns typed module information without a network call' {
         $result = Get-FortiCNAPPModuleInfo
 
-        $result.PSObject.TypeNames[0] | Should -Be 'PSFortiCNAPP.ModuleInfo'
+        $result.PSObject.TypeNames[0] |
+            Should -Be 'PSFortiCNAPP.ModuleInfo'
         $result.Name | Should -Be 'PSFortiCNAPP'
         $result.Version | Should -Be ([version]'0.1.0')
-        $result.MinimumPowerShellVersion | Should -Be ([version]'7.6.0')
+        $result.MinimumPowerShellVersion |
+            Should -Be ([version]'7.6.0')
         $result.Distribution | Should -Be 'GitHub Releases'
-        $result.ProjectUri.AbsoluteUri | Should -Be 'https://github.com/paulkakell/PSFortiCNAPP'
+        $result.ProjectUri.AbsoluteUri |
+            Should -Be 'https://github.com/paulkakell/PSFortiCNAPP'
         $result.IsDevelopmentVersion | Should -BeTrue
     }
 
@@ -52,6 +67,7 @@ Describe 'PSFortiCNAPP module foundation' {
         )
         $joinedNames = $propertyNames -join ','
 
-        $joinedNames | Should -Not -Match '(?i)secret|password|token|credential|api.?key'
+        $joinedNames |
+            Should -Not -Match '(?i)secret|password|token|credential|api.?key'
     }
 }
