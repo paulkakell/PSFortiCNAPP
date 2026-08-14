@@ -12,6 +12,7 @@
     PowerShellVersion = '7.6'
     CompatiblePSEditions = @('Core')
     FunctionsToExport = @(
+        'ConvertFrom-FortiCNAPPHttpExchange'
         'ConvertTo-FortiCNAPPEvidenceRecord'
         'Get-FortiCNAPPModuleInfo'
         'Test-FortiCNAPPEnvironment'
@@ -31,7 +32,7 @@
             )
             LicenseUri = 'https://github.com/paulkakell/PSFortiCNAPP/blob/main/LICENSE'
             ProjectUri = 'https://github.com/paulkakell/PSFortiCNAPP'
-            ReleaseNotes = 'Initial foundation plus synthetic evidence-record normalization.'
+            ReleaseNotes = 'Foundation, synthetic evidence normalization, and local HTTP contract parsing.'
         }
     }
 }
