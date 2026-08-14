@@ -4,9 +4,7 @@
   <ViewDefinitions>
     <View>
       <Name>PSFortiCNAPP.ModuleInfo</Name>
-      <ViewSelectedBy>
-        <TypeName>PSFortiCNAPP.ModuleInfo</TypeName>
-      </ViewSelectedBy>
+      <ViewSelectedBy><TypeName>PSFortiCNAPP.ModuleInfo</TypeName></ViewSelectedBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader><Label>Name</Label></TableColumnHeader>
@@ -14,23 +12,17 @@
           <TableColumnHeader><Label>Minimum PowerShell</Label></TableColumnHeader>
           <TableColumnHeader><Label>Distribution</Label></TableColumnHeader>
         </TableHeaders>
-        <TableRowEntries>
-          <TableRowEntry>
-            <TableColumnItems>
-              <TableColumnItem><PropertyName>Name</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>Version</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>MinimumPowerShellVersion</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>Distribution</PropertyName></TableColumnItem>
-            </TableColumnItems>
-          </TableRowEntry>
-        </TableRowEntries>
+        <TableRowEntries><TableRowEntry><TableColumnItems>
+          <TableColumnItem><PropertyName>Name</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>Version</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>MinimumPowerShellVersion</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>Distribution</PropertyName></TableColumnItem>
+        </TableColumnItems></TableRowEntry></TableRowEntries>
       </TableControl>
     </View>
     <View>
       <Name>PSFortiCNAPP.EnvironmentReadiness</Name>
-      <ViewSelectedBy>
-        <TypeName>PSFortiCNAPP.EnvironmentReadiness</TypeName>
-      </ViewSelectedBy>
+      <ViewSelectedBy><TypeName>PSFortiCNAPP.EnvironmentReadiness</TypeName></ViewSelectedBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader><Label>Ready</Label></TableColumnHeader>
@@ -42,27 +34,21 @@
           <TableColumnHeader><Label>Failed</Label></TableColumnHeader>
           <TableColumnHeader><Label>Workspace</Label></TableColumnHeader>
         </TableHeaders>
-        <TableRowEntries>
-          <TableRowEntry>
-            <TableColumnItems>
-              <TableColumnItem><PropertyName>Ready</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>Complete</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>OperatingSystem</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>PowerShellVersion</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>PassCount</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>WarningCount</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>FailCount</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>WorkspacePath</PropertyName></TableColumnItem>
-            </TableColumnItems>
-          </TableRowEntry>
-        </TableRowEntries>
+        <TableRowEntries><TableRowEntry><TableColumnItems>
+          <TableColumnItem><PropertyName>Ready</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>Complete</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>OperatingSystem</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>PowerShellVersion</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>PassCount</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>WarningCount</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>FailCount</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>WorkspacePath</PropertyName></TableColumnItem>
+        </TableColumnItems></TableRowEntry></TableRowEntries>
       </TableControl>
     </View>
     <View>
       <Name>PSFortiCNAPP.EvidenceRecord</Name>
-      <ViewSelectedBy>
-        <TypeName>PSFortiCNAPP.EvidenceRecord</TypeName>
-      </ViewSelectedBy>
+      <ViewSelectedBy><TypeName>PSFortiCNAPP.EvidenceRecord</TypeName></ViewSelectedBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader><Label>Severity</Label></TableColumnHeader>
@@ -73,26 +59,20 @@
           <TableColumnHeader><Label>Resource</Label></TableColumnHeader>
           <TableColumnHeader><Label>Title</Label></TableColumnHeader>
         </TableHeaders>
-        <TableRowEntries>
-          <TableRowEntry>
-            <TableColumnItems>
-              <TableColumnItem><PropertyName>Severity</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>Status</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>EvidenceState</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>Domain</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>CloudProvider</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>ResourceId</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>Title</PropertyName></TableColumnItem>
-            </TableColumnItems>
-          </TableRowEntry>
-        </TableRowEntries>
+        <TableRowEntries><TableRowEntry><TableColumnItems>
+          <TableColumnItem><PropertyName>Severity</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>Status</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>EvidenceState</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>Domain</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>CloudProvider</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>ResourceId</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>Title</PropertyName></TableColumnItem>
+        </TableColumnItems></TableRowEntry></TableRowEntries>
       </TableControl>
     </View>
     <View>
       <Name>PSFortiCNAPP.HttpExchange</Name>
-      <ViewSelectedBy>
-        <TypeName>PSFortiCNAPP.HttpExchange</TypeName>
-      </ViewSelectedBy>
+      <ViewSelectedBy><TypeName>PSFortiCNAPP.HttpExchange</TypeName></ViewSelectedBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader><Label>Exchange</Label></TableColumnHeader>
@@ -104,27 +84,21 @@
           <TableColumnHeader><Label>Duration ms</Label></TableColumnHeader>
           <TableColumnHeader><Label>URI</Label></TableColumnHeader>
         </TableHeaders>
-        <TableRowEntries>
-          <TableRowEntry>
-            <TableColumnItems>
-              <TableColumnItem><PropertyName>ExchangeId</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>Method</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>StatusCode</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>StatusFamily</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>BodyState</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>ContractState</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>DurationMilliseconds</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>RequestUri</PropertyName></TableColumnItem>
-            </TableColumnItems>
-          </TableRowEntry>
-        </TableRowEntries>
+        <TableRowEntries><TableRowEntry><TableColumnItems>
+          <TableColumnItem><PropertyName>ExchangeId</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>Method</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>StatusCode</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>StatusFamily</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>BodyState</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>ContractState</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>DurationMilliseconds</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>RequestUri</PropertyName></TableColumnItem>
+        </TableColumnItems></TableRowEntry></TableRowEntries>
       </TableControl>
     </View>
     <View>
       <Name>PSFortiCNAPP.SyntheticHttpContractSummary</Name>
-      <ViewSelectedBy>
-        <TypeName>PSFortiCNAPP.SyntheticHttpContractSummary</TypeName>
-      </ViewSelectedBy>
+      <ViewSelectedBy><TypeName>PSFortiCNAPP.SyntheticHttpContractSummary</TypeName></ViewSelectedBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader><Label>Classification</Label></TableColumnHeader>
@@ -134,18 +108,142 @@
           <TableColumnHeader><Label>Warnings</Label></TableColumnHeader>
           <TableColumnHeader><Label>Invalid</Label></TableColumnHeader>
         </TableHeaders>
-        <TableRowEntries>
-          <TableRowEntry>
-            <TableColumnItems>
-              <TableColumnItem><PropertyName>DataClassification</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>ExchangeCount</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>SuccessCount</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>ValidContractCount</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>WarningContractCount</PropertyName></TableColumnItem>
-              <TableColumnItem><PropertyName>InvalidContractCount</PropertyName></TableColumnItem>
-            </TableColumnItems>
-          </TableRowEntry>
-        </TableRowEntries>
+        <TableRowEntries><TableRowEntry><TableColumnItems>
+          <TableColumnItem><PropertyName>DataClassification</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>ExchangeCount</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>SuccessCount</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>ValidContractCount</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>WarningContractCount</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>InvalidContractCount</PropertyName></TableColumnItem>
+        </TableColumnItems></TableRowEntry></TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>PSFortiCNAPP.Configuration</Name>
+      <ViewSelectedBy><TypeName>PSFortiCNAPP.Configuration</TypeName></ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>Environment</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Account</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Base URI</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Key</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Lifetime</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries><TableRowEntry><TableColumnItems>
+          <TableColumnItem><PropertyName>EnvironmentName</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>AccountName</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>BaseUri</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>KeyIdDisplay</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>TokenLifetimeSeconds</PropertyName></TableColumnItem>
+        </TableColumnItems></TableRowEntry></TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>PSFortiCNAPP.ConfigurationValidation</Name>
+      <ViewSelectedBy><TypeName>PSFortiCNAPP.ConfigurationValidation</TypeName></ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>Environment</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Account</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Valid</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Passed</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Warnings</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Failed</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries><TableRowEntry><TableColumnItems>
+          <TableColumnItem><PropertyName>EnvironmentName</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>AccountName</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>Valid</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>PassCount</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>WarningCount</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>FailCount</PropertyName></TableColumnItem>
+        </TableColumnItems></TableRowEntry></TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>PSFortiCNAPP.Session</Name>
+      <ViewSelectedBy><TypeName>PSFortiCNAPP.Session</TypeName></ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>Environment</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Account</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Connected UTC</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Expires UTC</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Key</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Connected</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries><TableRowEntry><TableColumnItems>
+          <TableColumnItem><PropertyName>EnvironmentName</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>AccountName</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>ConnectedAtUtc</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>ExpiresAtUtc</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>KeyIdDisplay</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>IsConnected</PropertyName></TableColumnItem>
+        </TableColumnItems></TableRowEntry></TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>PSFortiCNAPP.Context</Name>
+      <ViewSelectedBy><TypeName>PSFortiCNAPP.Context</TypeName></ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>Environment</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Account</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Connected</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Expired</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Ready</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Remaining sec</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries><TableRowEntry><TableColumnItems>
+          <TableColumnItem><PropertyName>EnvironmentName</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>AccountName</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>IsConnected</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>IsExpired</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>ReadyForRequest</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>RemainingSeconds</PropertyName></TableColumnItem>
+        </TableColumnItems></TableRowEntry></TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>PSFortiCNAPP.DisconnectResult</Name>
+      <ViewSelectedBy><TypeName>PSFortiCNAPP.DisconnectResult</TypeName></ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>Environment</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Account</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Was Connected</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Disconnected</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Remote Revoked</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries><TableRowEntry><TableColumnItems>
+          <TableColumnItem><PropertyName>EnvironmentName</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>AccountName</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>WasConnected</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>Disconnected</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>RemoteTokenRevoked</PropertyName></TableColumnItem>
+        </TableColumnItems></TableRowEntry></TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>PSFortiCNAPP.SyntheticAuthenticationProfileSummary</Name>
+      <ViewSelectedBy><TypeName>PSFortiCNAPP.SyntheticAuthenticationProfileSummary</TypeName></ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>Classification</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Profiles</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Valid</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Invalid</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Matched</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Live Requests</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries><TableRowEntry><TableColumnItems>
+          <TableColumnItem><PropertyName>DataClassification</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>ProfileCount</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>ValidProfileCount</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>InvalidProfileCount</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>ExpectedMatchCount</PropertyName></TableColumnItem>
+          <TableColumnItem><PropertyName>LiveRequestCount</PropertyName></TableColumnItem>
+        </TableColumnItems></TableRowEntry></TableRowEntries>
       </TableControl>
     </View>
   </ViewDefinitions>

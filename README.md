@@ -15,21 +15,27 @@ PSFortiCNAPP is an independent community open-source project maintained in `paul
 
 ## Current status
 
-The project is in Phase 2 chapter and repository production. The foundation plus the Chapter 1 and Chapter 2 public companion artifacts are on `main`.
+The project is in Phase 2 chapter and repository production. Public companion artifacts for Chapters 1 through 4 are accepted on `main`. Chapter 5 adds the authentication and explicit session foundation.
 
-The current module is loadable and tested, but it intentionally contains no live FortiCNAPP authentication, endpoint, or LQL implementation. Provider-facing behavior remains `VERIFY IN TENANT` until its official source, access requirements, response contract, failure behavior, and controlled validation are recorded.
+The module contains no general FortiCNAPP request client, LQL execution, inventory collection, or remediation command. Tenant-facing behavior remains `VERIFY IN TENANT` until its official source, access requirements, response contract, failure behavior, and controlled validation are recorded.
 
-## Foundation commands
+## Current commands
 
 ```powershell
 Import-Module ./src/PSFortiCNAPP/PSFortiCNAPP.psd1 -Force
 
 Get-FortiCNAPPModuleInfo
 Test-FortiCNAPPEnvironment -WorkspacePath $PWD
+ConvertTo-FortiCNAPPEvidenceRecord
+ConvertFrom-FortiCNAPPHttpExchange
+New-FortiCNAPPConfiguration
+Test-FortiCNAPPConfiguration
+Connect-FortiCNAPP
+Get-FortiCNAPPContext
+Disconnect-FortiCNAPP
 ```
 
-- `Get-FortiCNAPPModuleInfo` returns module, runtime, platform, distribution, project, and licensing metadata without a network call.
-- `Test-FortiCNAPPEnvironment` returns a non-sensitive readiness object for PowerShell, operating system, workspace, and write access.
+Chapter 5 uses the documented temporary-token route but has not been validated against a live tenant. Service-user permissions, account scope, observed token behavior, and FortiCloud authentication remain `VERIFY IN TENANT`.
 
 ## Development setup
 
@@ -45,13 +51,16 @@ The quality command runs PSScriptAnalyzer, Pester with coverage, module-manifest
 
 The package command creates a development ZIP and SHA-256 file under `artifacts/package`. Public distribution will use GitHub Releases only after release gates are complete.
 
-## Synthetic Chapter 1 lab
+## Synthetic labs
 
 ```powershell
 pwsh ./examples/foundations/Review-SyntheticScopeRegister.ps1
+pwsh ./examples/chapter-03/Review-SyntheticFindings.ps1
+pwsh ./examples/chapter-04/Review-SyntheticHttpExchanges.ps1
+pwsh ./examples/chapter-05/Review-SyntheticAuthenticationProfiles.ps1
 ```
 
-The lab calculates current observed coverage from an invented Kestrel Vale Health Services scope register. It distinguishes observed, missing, stale, and excluded evidence and states the denominator. It is not proof of FortiCNAPP product behavior.
+All lab organizations, accounts, resources, findings, exchanges, authentication profiles, timestamps, and metrics are synthetic.
 
 ## Project goals
 
