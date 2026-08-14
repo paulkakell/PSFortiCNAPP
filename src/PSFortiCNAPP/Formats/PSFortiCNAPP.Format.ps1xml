@@ -88,5 +88,65 @@
         </TableRowEntries>
       </TableControl>
     </View>
+    <View>
+      <Name>PSFortiCNAPP.HttpExchange</Name>
+      <ViewSelectedBy>
+        <TypeName>PSFortiCNAPP.HttpExchange</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>Exchange</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Method</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Status</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Family</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Body</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Contract</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Duration ms</Label></TableColumnHeader>
+          <TableColumnHeader><Label>URI</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem><PropertyName>ExchangeId</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Method</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>StatusCode</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>StatusFamily</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>BodyState</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>ContractState</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>DurationMilliseconds</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>RequestUri</PropertyName></TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>PSFortiCNAPP.SyntheticHttpContractSummary</Name>
+      <ViewSelectedBy>
+        <TypeName>PSFortiCNAPP.SyntheticHttpContractSummary</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>Classification</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Exchanges</Label></TableColumnHeader>
+          <TableColumnHeader><Label>HTTP Success</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Valid</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Warnings</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Invalid</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem><PropertyName>DataClassification</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>ExchangeCount</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>SuccessCount</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>ValidContractCount</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>WarningContractCount</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>InvalidContractCount</PropertyName></TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
   </ViewDefinitions>
 </Configuration>
