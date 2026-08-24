@@ -1,0 +1,31 @@
+{
+  "spdxFileCopyrightText": "2026 Paul Kell",
+  "spdxLicenseIdentifier": "Apache-2.0",
+  "schemaVersion": "1.0",
+  "dataClassification": "Synthetic",
+  "organization": "Kestrel Vale Health Services",
+  "asOfUtc": "2026-08-23T18:00:00Z",
+  "freshnessThresholdHours": 24,
+  "scopeRegister": [
+    {"scopeId":"scope-aws-01","assetId":"syn-aws-ec2-01","platform":"AWS","included":true,"owner":"Clinical Platform","businessService":"Patient Exchange"},
+    {"scopeId":"scope-aws-02","assetId":"syn-aws-rds-01","platform":"AWS","included":true,"owner":"Data Platform","businessService":"Clinical Analytics"},
+    {"scopeId":"scope-azure-01","assetId":"syn-azure-vm-01","platform":"Azure","included":true,"owner":"Workforce Applications","businessService":"Workforce Portal"},
+    {"scopeId":"scope-azure-02","assetId":"syn-azure-storage-01","platform":"Azure","included":true,"owner":"Data Platform","businessService":"Clinical Analytics"},
+    {"scopeId":"scope-gcp-01","assetId":"syn-gcp-instance-01","platform":"GoogleCloud","included":true,"owner":"Research Technology","businessService":"Research Workspace"},
+    {"scopeId":"scope-gcp-02","assetId":"syn-gcp-bucket-01","platform":"GoogleCloud","included":true,"owner":"Research Technology","businessService":"Research Workspace"},
+    {"scopeId":"scope-k8s-01","assetId":"syn-k8s-cluster-01","platform":"Kubernetes","included":true,"owner":"Container Platform","businessService":"Clinical Integration"},
+    {"scopeId":"scope-container-01","assetId":"syn-container-image-01","platform":"Container","included":true,"owner":"Container Platform","businessService":"Container Supply Chain"},
+    {"scopeId":"scope-retired-01","assetId":"syn-retired-vm-01","platform":"AWS","included":false,"owner":"Legacy Services","businessService":"Retired"}
+  ],
+  "observedAssets": [
+    {"sourceRecordId":"obs-001","assetId":"syn-aws-ec2-01","platform":"AWS","observedAtUtc":"2026-08-23T17:50:00Z"},
+    {"sourceRecordId":"obs-002","assetId":"syn-aws-rds-01","platform":"AWS","observedAtUtc":"2026-08-23T17:40:00Z"},
+    {"sourceRecordId":"obs-003","assetId":"syn-azure-vm-01","platform":"Azure","observedAtUtc":"2026-08-23T17:30:00Z"},
+    {"sourceRecordId":"obs-004","assetId":"syn-azure-storage-01","platform":"Azure","observedAtUtc":"2026-08-23T17:20:00Z"},
+    {"sourceRecordId":"obs-005","assetId":"syn-gcp-instance-01","platform":"GoogleCloud","observedAtUtc":"2026-08-23T17:10:00Z"},
+    {"sourceRecordId":"obs-006","assetId":"syn-k8s-cluster-01","platform":"Kubernetes","observedAtUtc":"2026-08-23T17:00:00Z"},
+    {"sourceRecordId":"obs-007","assetId":"syn-container-image-01","platform":"Container","observedAtUtc":"2026-08-21T12:00:00Z"},
+    {"sourceRecordId":"obs-008","assetId":"syn-aws-ec2-01","platform":"AWS","observedAtUtc":"2026-08-23T16:00:00Z"},
+    {"sourceRecordId":"obs-009","assetId":"syn-unexpected-function-01","platform":"AWS","observedAtUtc":"2026-08-23T16:45:00Z"}
+  ]
+}
