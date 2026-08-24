@@ -37,17 +37,15 @@ Describe 'Get-FortiCNAPPAsset' {
             }
 
             [pscustomobject]@{
-                EnvironmentName    = 'Synthetic'
-                AccountName        = 'tenant-example'
-                PageCount          = 2
-                RecordCount        = 2
-                CollectionComplete = $true
-                CorrelationId      = 'syn-correlation-07'
-                RateLimit          = [pscustomobject]@{
-                    Limit     = 480
-                    Remaining = 479
-                    Reset     = 60
-                }
+                EnvironmentName       = 'Synthetic'
+                AccountName           = 'tenant-example'
+                PageCount             = 2
+                RecordCount           = 2
+                CollectionComplete    = $true
+                CorrelationId         = 'syn-correlation-07'
+                RateLimitLimit        = 480
+                RateLimitRemaining    = 479
+                RateLimitResetSeconds = 60
                 Data = @(
                     [pscustomobject]@{ syntheticId = 'asset-001' }
                     [pscustomobject]@{ syntheticId = 'asset-002' }
@@ -75,6 +73,9 @@ Describe 'Get-FortiCNAPPAsset' {
         $result.ProviderRecordShape | Should -Be 'Unnormalized'
         $result.TenantValidationState | Should -Be 'VERIFY IN TENANT'
         $result.SensitiveValuesExposed | Should -BeFalse
+        $result.RateLimit.Limit | Should -Be 480
+        $result.RateLimit.Remaining | Should -Be 479
+        $result.RateLimit.ResetSeconds | Should -Be 60
 
         $script:observed.Method | Should -Be 'POST'
         $script:observed.Path | Should -Be 'Inventory/search'
