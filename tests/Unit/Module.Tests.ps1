@@ -19,9 +19,11 @@ Describe 'PSFortiCNAPP module foundation' {
         $module.Name | Should -Be 'PSFortiCNAPP'
     }
 
-    It 'exports only the approved Chapter 6 commands' {
+    It 'exports only the approved Chapter 7 commands' {
         $commands = @(Get-Command -Module PSFortiCNAPP | Select-Object -ExpandProperty Name | Sort-Object)
-        $commands | Should -HaveCount 11
+        $commands | Should -HaveCount 13
+        $commands | Should -Contain 'Get-FortiCNAPPAsset'
+        $commands | Should -Contain 'Measure-FortiCNAPPAssetCoverage'
         $commands | Should -Contain 'Invoke-FortiCNAPPRequest'
         $commands | Should -Contain 'Get-FortiCNAPPSchema'
     }
