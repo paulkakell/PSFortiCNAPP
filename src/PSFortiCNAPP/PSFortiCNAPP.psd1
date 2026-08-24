@@ -16,10 +16,12 @@
         'ConvertFrom-FortiCNAPPHttpExchange'
         'ConvertTo-FortiCNAPPEvidenceRecord'
         'Disconnect-FortiCNAPP'
+        'Get-FortiCNAPPAsset'
         'Get-FortiCNAPPContext'
         'Get-FortiCNAPPModuleInfo'
         'Get-FortiCNAPPSchema'
         'Invoke-FortiCNAPPRequest'
+        'Measure-FortiCNAPPAssetCoverage'
         'New-FortiCNAPPConfiguration'
         'Test-FortiCNAPPConfiguration'
         'Test-FortiCNAPPEnvironment'
@@ -39,7 +41,7 @@
             )
             LicenseUri = 'https://github.com/paulkakell/PSFortiCNAPP/blob/main/LICENSE'
             ProjectUri = 'https://github.com/paulkakell/PSFortiCNAPP'
-            ReleaseNotes = 'Secure sessions, bounded API v2 requests, retries, pagination, redacted logging, and schema discovery.'
+            ReleaseNotes = 'Secure sessions, bounded API requests, schema discovery, inventory collection, and denominator-aware coverage analysis.'
         }
     }
 }
