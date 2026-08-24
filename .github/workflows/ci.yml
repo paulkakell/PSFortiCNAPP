@@ -48,7 +48,19 @@ jobs:
 
       - name: Run repository quality gates
         shell: pwsh
-        run: ./build/Invoke-Quality.ps1 -CI
+        run: |
+          [void](New-Item -ItemType Directory -Path artifacts -Force)
+          ./build/Invoke-Quality.ps1 -CI *>&1 |
+              Tee-Object -FilePath artifacts/quality.log
+
+      - name: Upload quality diagnostics
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: quality-${{ matrix.os }}
+          path: artifacts/quality.log
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Build development package
         shell: pwsh

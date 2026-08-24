@@ -37,6 +37,8 @@ $publicFunctions = @(
     'Disconnect-FortiCNAPP'
     'Get-FortiCNAPPContext'
     'Get-FortiCNAPPModuleInfo'
+    'Get-FortiCNAPPSchema'
+    'Invoke-FortiCNAPPRequest'
     'New-FortiCNAPPConfiguration'
     'Test-FortiCNAPPConfiguration'
     'Test-FortiCNAPPEnvironment'

@@ -7,6 +7,7 @@ Chapter maps connect commercial manuscript topics to public `PSFortiCNAPP` code,
 
 Available maps:
 
-- `chapter-03.md`: objects, pipelines, logic, and reusable functions
-- `chapter-04.md`: HTTP, JSON, and API contracts
-- `chapter-05.md`: authentication, service users, and session safety
+- `chapter-03.md`
+- `chapter-04.md`
+- `chapter-05.md`
+- `chapter-06.md`

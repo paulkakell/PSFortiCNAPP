@@ -1,0 +1,54 @@
+{
+  "spdxFileCopyrightText": "2026 Paul Kell",
+  "spdxLicenseIdentifier": "Apache-2.0",
+  "schemaVersion": "1.0",
+  "dataClassification": "Synthetic",
+  "organization": "Kestrel Vale Health Services",
+  "requestPlan": [
+    {
+      "scenario": "success",
+      "method": "GET",
+      "path": "schemas/AuditLogs",
+      "statusSequence": [200],
+      "expectedAttempts": 1,
+      "expectedOutcome": "Success"
+    },
+    {
+      "scenario": "rate-limit-then-success",
+      "method": "GET",
+      "path": "schemas",
+      "statusSequence": [429, 200],
+      "expectedAttempts": 2,
+      "expectedOutcome": "Success"
+    },
+    {
+      "scenario": "service-unavailable-then-success",
+      "method": "POST",
+      "path": "Inventory/search",
+      "statusSequence": [503, 200],
+      "expectedAttempts": 2,
+      "expectedOutcome": "Success"
+    },
+    {
+      "scenario": "forbidden",
+      "method": "GET",
+      "path": "OrganizationInfo",
+      "statusSequence": [403],
+      "expectedAttempts": 1,
+      "expectedOutcome": "HttpError"
+    },
+    {
+      "scenario": "two-pages",
+      "method": "POST",
+      "path": "Inventory/search",
+      "statusSequence": [200, 200],
+      "expectedAttempts": 2,
+      "expectedOutcome": "Success"
+    }
+  ],
+  "notes": [
+    "No network request is made by the Chapter 6 public lab.",
+    "All hosts, paths, statuses, delays, and identifiers are synthetic or documented design inputs.",
+    "Provider permissions and observed rate behavior remain VERIFY IN TENANT."
+  ]
+}

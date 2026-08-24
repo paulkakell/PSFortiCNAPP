@@ -9,25 +9,20 @@ All notable repository and module changes are recorded here. The project follows
 
 ### Added
 
-- Phase 2 governance and contribution files.
-- PowerShell 7.6 module, test, packaging, and CI foundations.
-- Synthetic scope, finding, HTTP-contract, and authentication-profile labs.
-- `Get-FortiCNAPPModuleInfo`.
-- `Test-FortiCNAPPEnvironment`.
-- `ConvertTo-FortiCNAPPEvidenceRecord`.
-- `ConvertFrom-FortiCNAPPHttpExchange`.
-- `New-FortiCNAPPConfiguration` and `Test-FortiCNAPPConfiguration`.
-- `Connect-FortiCNAPP`, `Get-FortiCNAPPContext`, and `Disconnect-FortiCNAPP`.
-- Explicit account API-key temporary-token request with process-local private session state.
+- PowerShell 7.6 module, tests, packaging, and cross-platform CI foundations.
+- Synthetic labs for scope, findings, HTTP contracts, authentication profiles, and API request planning.
+- Secret-free configuration and explicit temporary-token sessions.
+- `Invoke-FortiCNAPPRequest` with bounded retries, safe pagination, redacted JSON Lines telemetry, and predictable objects.
+- `Get-FortiCNAPPSchema` for documented schema discovery routes.
 
 ### Changed
 
-- Public module surface expanded to nine commands.
-- Project status advanced through the Chapter 5 public companion increment.
+- Public module surface expanded to eleven commands.
+- Chapter 5 configuration validation consolidated into one canonical function definition.
+- Project status advanced through the Chapter 6 public companion increment.
 
 ### Security
 
-- Credentials remain outside configuration objects, fixtures, ordinary output, and error text.
-- Public sessions expose safe metadata while bearer tokens remain in module-private process state.
-- Local disconnect clears the module-held token reference without claiming remote revocation.
-- Repository rules prohibit credentials, private keys, real tenant evidence, and unreviewed provider claims in public fixtures and examples.
+- Bearer tokens remain in module-private process state.
+- Request output and logs exclude authorization material, query values, and raw response bodies.
+- Continuation URLs must use the connected tenant authority and an API v2 path.
