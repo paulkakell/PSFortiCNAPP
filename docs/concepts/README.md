@@ -7,5 +7,7 @@ Public concept guides explain reusable `PSFortiCNAPP` behavior independently fro
 
 Current guides:
 
-- `CHAPTER-04-HTTP-JSON-API-CONTRACTS.md`: local HTTP exchange, JSON parsing, safe diagnostics, and response-contract states
-- `CHAPTER-05-AUTHENTICATION-SESSION-SAFETY.md`: secret-free configuration, temporary tokens, explicit sessions, safe context, and local disconnect
+- `CHAPTER-03-OBJECTS-PIPELINES-FUNCTIONS.md`
+- `CHAPTER-04-HTTP-JSON-API-CONTRACTS.md`
+- `CHAPTER-05-AUTHENTICATION-SESSION-SAFETY.md`
+- `CHAPTER-06-PRODUCTION-API-CLIENT.md`

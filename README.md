@@ -15,27 +15,18 @@ PSFortiCNAPP is an independent community open-source project maintained in `paul
 
 ## Current status
 
-The project is in Phase 2 chapter and repository production. Public companion artifacts for Chapters 1 through 4 are accepted on `main`. Chapter 5 adds the authentication and explicit session foundation.
+Public companion artifacts for Chapters 1 through 5 are accepted. Chapter 6 adds the reusable API v2 request client, bounded retries, continuation handling, redacted logging, and schema discovery.
 
-The module contains no general FortiCNAPP request client, LQL execution, inventory collection, or remediation command. Tenant-facing behavior remains `VERIFY IN TENANT` until its official source, access requirements, response contract, failure behavior, and controlled validation are recorded.
+Tenant-facing behavior remains `VERIFY IN TENANT` until its official source, access requirements, response contract, failure behavior, and controlled validation are recorded.
 
 ## Current commands
 
 ```powershell
 Import-Module ./src/PSFortiCNAPP/PSFortiCNAPP.psd1 -Force
-
-Get-FortiCNAPPModuleInfo
-Test-FortiCNAPPEnvironment -WorkspacePath $PWD
-ConvertTo-FortiCNAPPEvidenceRecord
-ConvertFrom-FortiCNAPPHttpExchange
-New-FortiCNAPPConfiguration
-Test-FortiCNAPPConfiguration
-Connect-FortiCNAPP
-Get-FortiCNAPPContext
-Disconnect-FortiCNAPP
+Get-Command -Module PSFortiCNAPP
 ```
 
-Chapter 5 uses the documented temporary-token route but has not been validated against a live tenant. Service-user permissions, account scope, observed token behavior, and FortiCloud authentication remain `VERIFY IN TENANT`.
+The module exports eleven commands through Chapter 6. The public API client supports GET and POST. State-changing methods are not exposed.
 
 ## Development setup
 
@@ -49,8 +40,6 @@ pwsh ./build/Package.ps1 -Clean
 
 The quality command runs PSScriptAnalyzer, Pester with coverage, module-manifest validation, SPDX checks, the U+2014 prohibition, and repository credential-pattern checks.
 
-The package command creates a development ZIP and SHA-256 file under `artifacts/package`. Public distribution will use GitHub Releases only after release gates are complete.
-
 ## Synthetic labs
 
 ```powershell
@@ -58,20 +47,16 @@ pwsh ./examples/foundations/Review-SyntheticScopeRegister.ps1
 pwsh ./examples/chapter-03/Review-SyntheticFindings.ps1
 pwsh ./examples/chapter-04/Review-SyntheticHttpExchanges.ps1
 pwsh ./examples/chapter-05/Review-SyntheticAuthenticationProfiles.ps1
+pwsh ./examples/chapter-06/Review-SyntheticRequestPlan.ps1
 ```
 
-All lab organizations, accounts, resources, findings, exchanges, authentication profiles, timestamps, and metrics are synthetic.
+All lab organizations, accounts, resources, findings, exchanges, authentication profiles, request plans, timestamps, and metrics are synthetic.
 
 ## Project goals
 
-The project will teach a PowerShell beginner how to build production-minded FortiCNAPP automation that:
+The project teaches a PowerShell beginner to build production-minded FortiCNAPP automation that preserves evidence lineage, handles failure explicitly, and produces defensible engineer and CISO outputs.
 
-- Uses PowerShell 7 and the FortiCNAPP API v2.
-- Uses LQL only after the datasource, fields, syntax, and behavior have been verified.
-- Preserves evidence lineage from source through transformation and reporting.
-- Produces useful objects for engineers and defensible metrics for security leaders.
-- Covers AWS, Azure, Google Cloud, Kubernetes, containers, hosts, identities, compliance, vulnerabilities, and threat evidence.
-- Ships through GitHub Releases. PowerShell Gallery publication is intentionally excluded.
+Official distribution will use GitHub Releases only. PowerShell Gallery publication is excluded.
 
 ## Project structure
 
@@ -80,20 +65,11 @@ The project will teach a PowerShell beginner how to build production-minded Fort
 - `build/`: dependency, quality, build, test, and package scripts.
 - `tools/`: repository policy scanners.
 - `examples/`: executable synthetic and sanitized examples.
-- `docs/project/`: binding project architecture and status.
-- `docs/reference/`: reusable evidence and command references.
-- `docs/source-register/`: first-party source records and non-redistributed source snapshot metadata.
-- `docs/verification/`: machine-readable verification records.
-- `manuscript/outline/`: separately copyrighted planning outline.
-- `manuscript/sample/`: the approved Phase 1 sample.
-- `manuscript/chapters/`: production notes and short publishing-asset notices only.
+- `docs/`: public companion documentation, references, sources, and verification records.
+- `manuscript/chapters/`: production notes and short publishing notices only.
 
-Complete commercial chapters are maintained outside the public companion repository. See `docs/project/MANUSCRIPT-REPOSITORY-BOUNDARY.md`.
-
-## Governance
-
-Read `CONTRIBUTING.md`, `SECURITY.md`, `SUPPORT.md`, and `CODE_OF_CONDUCT.md` before opening a pull request or issue. Public contributions must exclude credentials, protected tenant data, and complete commercial chapter prose.
+Complete commercial chapters are maintained outside the public repository.
 
 ## Licensing
 
-This is a multi-license repository. Executable material is Apache-2.0, project documentation and diagrams are CC BY 4.0, and limited publication-planning material is separately copyrighted. See `LICENSE`, `LICENSE-SCOPE.md`, and `docs/project/MANUSCRIPT-REPOSITORY-BOUNDARY.md` before reusing content.
+Executable material is Apache-2.0. Repository documentation and original diagrams are CC BY 4.0. The commercial manuscript remains separately copyrighted. See `LICENSE`, `LICENSE-SCOPE.md`, and `docs/project/MANUSCRIPT-REPOSITORY-BOUNDARY.md`.

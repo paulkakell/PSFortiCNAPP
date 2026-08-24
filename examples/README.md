@@ -3,14 +3,15 @@
 
 # Examples
 
-Examples are executable Apache-2.0 material. They use synthetic or explicitly sanitized data and must not require a contributor's profile or stored credential.
+Examples are executable Apache-2.0 material. They use synthetic or explicitly sanitized data and must not require a contributor's profile or stored credential unless a later integration example is explicitly invoked with protected configuration.
 
 Current examples:
 
-- `foundations/Test-Environment.ps1`: produces a non-sensitive readiness object.
-- `foundations/Review-SyntheticScopeRegister.ps1`: calculates transparent synthetic scope coverage.
-- `chapter-03/Review-SyntheticFindings.ps1`: demonstrates object pipelines and denominator-aware findings.
-- `chapter-04/Review-SyntheticHttpExchanges.ps1`: demonstrates local HTTP and JSON contracts.
-- `chapter-05/Review-SyntheticAuthenticationProfiles.ps1`: validates five synthetic authentication profiles without a request or secret.
+- `foundations/Test-Environment.ps1`
+- `foundations/Review-SyntheticScopeRegister.ps1`
+- `chapter-03/Review-SyntheticFindings.ps1`
+- `chapter-04/Review-SyntheticHttpExchanges.ps1`
+- `chapter-05/Review-SyntheticAuthenticationProfiles.ps1`
+- `chapter-06/Review-SyntheticRequestPlan.ps1`
 
-Live provider examples are added only after their verification-ledger requirements are satisfied.
+The Chapter 6 public lab performs zero network requests.

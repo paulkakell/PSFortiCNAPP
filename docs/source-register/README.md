@@ -12,5 +12,6 @@ Current chapter registers:
 - `CHAPTER-03.md`
 - `CHAPTER-04.md`
 - `CHAPTER-05.md`
+- `CHAPTER-06.md`
 
 The supplied FortiCNAPP API 2.0 source snapshot is identified by hash in `FORTICNAPP-API-2.0-SNAPSHOT.md` and is not redistributed.

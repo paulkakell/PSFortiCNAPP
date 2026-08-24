@@ -9,8 +9,7 @@
 | 2 | Accepted | No |
 | 3 | Accepted | No |
 | 4 | Accepted | No |
-| 5 | Branch validation | No |
+| 5 | Accepted | No |
+| 6 | Branch validation | No |
 
-Chapter 5 implements secret-free configuration, the documented temporary-token request shape, explicit process-local sessions, safe context inspection, and local disconnect behavior.
-
-Live tenant authorization, service-user permissions, account scope, observed token behavior, and FortiCloud authentication remain `VERIFY IN TENANT`.
+Chapter 6 introduces the reusable API request client and schema discovery. Controlled tenant behavior remains `VERIFY IN TENANT`.

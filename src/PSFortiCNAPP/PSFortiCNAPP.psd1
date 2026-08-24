@@ -18,6 +18,8 @@
         'Disconnect-FortiCNAPP'
         'Get-FortiCNAPPContext'
         'Get-FortiCNAPPModuleInfo'
+        'Get-FortiCNAPPSchema'
+        'Invoke-FortiCNAPPRequest'
         'New-FortiCNAPPConfiguration'
         'Test-FortiCNAPPConfiguration'
         'Test-FortiCNAPPEnvironment'
@@ -37,7 +39,7 @@
             )
             LicenseUri = 'https://github.com/paulkakell/PSFortiCNAPP/blob/main/LICENSE'
             ProjectUri = 'https://github.com/paulkakell/PSFortiCNAPP'
-            ReleaseNotes = 'Foundation, local HTTP contracts, and explicit temporary-token session management.'
+            ReleaseNotes = 'Secure sessions, bounded API v2 requests, retries, pagination, redacted logging, and schema discovery.'
         }
     }
 }
