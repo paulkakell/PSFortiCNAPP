@@ -1,0 +1,31 @@
+{
+  "spdxFileCopyrightText": "2026 Paul Kell",
+  "spdxLicenseIdentifier": "CC-BY-4.0",
+  "chapter": 7,
+  "title": "Asset Inventory, Pagination, and Data Quality",
+  "moduleVersion": "0.1.0",
+  "powerShellVersion": "7.6",
+  "verifiedOfficial": [
+    "POST /api/v2/Inventory/search is documented",
+    "General pagination conventions and limits are documented"
+  ],
+  "verifyInTenant": [
+    "Required permissions",
+    "Accepted time-filter field for Inventory/search",
+    "Observed response fields",
+    "Observed pagination and continuation behavior",
+    "Inventory freshness by tenant configuration"
+  ],
+  "syntheticExpected": {
+    "includedAssetCount": 8,
+    "currentAssetCount": 6,
+    "staleAssetCount": 1,
+    "missingAssetCount": 1,
+    "excludedAssetCount": 1,
+    "unexpectedAssetCount": 1,
+    "duplicateAssetCount": 1,
+    "coveragePercent": 75
+  },
+  "stateChangingBehavior": false,
+  "liveTenantRequest": false
+}
