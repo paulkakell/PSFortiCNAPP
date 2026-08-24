@@ -38,44 +38,44 @@ if ($fixture.dataClassification -ne 'Synthetic') {
 }
 
 $results = @(
-    foreach ($profile in $fixture.profiles) {
+    foreach ($authenticationProfile in $fixture.profiles) {
         $configuration = [pscustomobject][ordered]@{
-            EnvironmentName      = $profile.environmentName
-            AccountName          = $profile.accountName
-            BaseUri              = $profile.baseUri
-            TokenEndpoint        = $profile.tokenEndpoint
+            EnvironmentName      = $authenticationProfile.environmentName
+            AccountName          = $authenticationProfile.accountName
+            BaseUri              = $authenticationProfile.baseUri
+            TokenEndpoint        = $authenticationProfile.tokenEndpoint
             AuthenticationMode   = 'AccountApiKey'
-            KeyId                = $profile.keyId
-            TokenLifetimeSeconds = $profile.tokenLifetimeSeconds
+            KeyId                = $authenticationProfile.keyId
+            TokenLifetimeSeconds = $authenticationProfile.tokenLifetimeSeconds
             ContainsSecret       = $false
         }
         $validation = Test-FortiCNAPPConfiguration `
             -Configuration $configuration
 
         [pscustomobject][ordered]@{
-            ProfileId      = $profile.profileId
-            ExpectedValid  = [bool]$profile.expectedValid
-            ActualValid    = $validation.Valid
-            MatchesExpected = [bool]$profile.expectedValid -eq $validation.Valid
-            PassCount      = $validation.PassCount
-            WarningCount   = $validation.WarningCount
-            FailCount      = $validation.FailCount
-            Checks         = $validation.Checks
+            ProfileId       = $authenticationProfile.profileId
+            ExpectedValid   = [bool]$authenticationProfile.expectedValid
+            ActualValid     = $validation.Valid
+            MatchesExpected = [bool]$authenticationProfile.expectedValid -eq $validation.Valid
+            PassCount       = $validation.PassCount
+            WarningCount    = $validation.WarningCount
+            FailCount       = $validation.FailCount
+            Checks          = $validation.Checks
         }
     }
 )
 
 $summary = [pscustomobject][ordered]@{
-    DataClassification = 'SYNTHETIC'
-    Organization       = $fixture.organization
-    ProfileCount       = $results.Count
-    ValidProfileCount  = @($results | Where-Object ActualValid).Count
+    DataClassification  = 'SYNTHETIC'
+    Organization        = $fixture.organization
+    ProfileCount        = $results.Count
+    ValidProfileCount   = @($results | Where-Object ActualValid).Count
     InvalidProfileCount = @($results | Where-Object { -not $_.ActualValid }).Count
-    ExpectedMatchCount = @($results | Where-Object MatchesExpected).Count
-    AllExpectationsMet = @($results | Where-Object { -not $_.MatchesExpected }).Count -eq 0
-    LiveRequestCount   = 0
-    SecretValueCount   = 0
-    Results            = $results
+    ExpectedMatchCount  = @($results | Where-Object MatchesExpected).Count
+    AllExpectationsMet  = @($results | Where-Object { -not $_.MatchesExpected }).Count -eq 0
+    LiveRequestCount    = 0
+    SecretValueCount    = 0
+    Results             = $results
 }
 $summary.PSObject.TypeNames.Insert(
     0,
