@@ -17,17 +17,19 @@ Describe 'PSFortiCNAPP module manifest contract' {
         $script:Manifest.CompatiblePSEditions | Should -Contain 'Core'
     }
 
-    It 'exports exactly the approved Chapter 6 functions' {
+    It 'exports exactly the approved Chapter 7 functions' {
         $functions = @($script:Manifest.ExportedFunctions.Keys | Sort-Object)
         $expected = @(
             'Connect-FortiCNAPP'
             'ConvertFrom-FortiCNAPPHttpExchange'
             'ConvertTo-FortiCNAPPEvidenceRecord'
             'Disconnect-FortiCNAPP'
+            'Get-FortiCNAPPAsset'
             'Get-FortiCNAPPContext'
             'Get-FortiCNAPPModuleInfo'
             'Get-FortiCNAPPSchema'
             'Invoke-FortiCNAPPRequest'
+            'Measure-FortiCNAPPAssetCoverage'
             'New-FortiCNAPPConfiguration'
             'Test-FortiCNAPPConfiguration'
             'Test-FortiCNAPPEnvironment'
