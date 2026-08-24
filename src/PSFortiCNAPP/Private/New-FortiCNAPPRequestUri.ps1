@@ -15,6 +15,7 @@ function New-FortiCNAPPRequestUri {
         [uri]$BaseUri,
 
         [Parameter(Mandatory)]
+        [Alias('AbsoluteUri')]
         [ValidateNotNullOrEmpty()]
         [string]$Path,
 
