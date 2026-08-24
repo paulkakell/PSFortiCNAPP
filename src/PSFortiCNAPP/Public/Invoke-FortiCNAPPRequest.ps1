@@ -4,50 +4,61 @@
 function Invoke-FortiCNAPPRequest {
     <#
     .SYNOPSIS
-    Sends a validated FortiCNAPP API v2 request through an explicit session.
+    Sends an authenticated request through the PSFortiCNAPP API v2 client.
 
     .DESCRIPTION
-    Builds a tenant-scoped HTTPS request, applies the module-private bearer token,
-    serializes an optional JSON body, parses JSON responses, records safe request
-    metadata, follows documented continuation URLs when requested, and performs
-    bounded retries for documented transient status codes.
+    Validates a connected session, builds an HTTPS API v2 URI, sends GET or POST,
+    applies bounded retries, parses JSON, follows validated continuation links,
+    records safe request telemetry, and returns predictable PowerShell objects.
 
-    The command never returns the bearer token, raw authorization header, request
-    query values, or unparsed response body text.
+    The command does not return the bearer token, Authorization header, request
+    body text, query values, or raw response body text.
 
     .PARAMETER Session
     Connected PSFortiCNAPP session.
 
     .PARAMETER Method
-    GET or POST. Chapter 6 keeps the general client read-only by default and adds
-    POST for documented search and validation operations.
+    GET or POST. State-changing HTTP methods are not exposed by this client.
 
     .PARAMETER Path
-    Relative API v2 path or an absolute continuation URI supplied by FortiCNAPP.
+    Relative path under `/api/v2/`, such as `schemas/AuditLogs`.
 
     .PARAMETER Query
-    Query parameters. Values are sent but not returned in ordinary output or logs.
+    Optional query key-value pairs. Values are sent but omitted from output and logs.
 
     .PARAMETER Body
-    Optional request body serialized to JSON with depth 100.
+    Optional POST request body. It is serialized with explicit JSON depth.
 
     .PARAMETER AllPages
-    Follow the documented paging.urls.nextPage value until no continuation remains.
+    Follows documented `paging.urls.nextPage` continuation links.
 
     .PARAMETER MaxPageCount
-    Safety bound for automatic pagination.
+    Maximum pages collected. The maximum of 100 aligns with the documented
+    500,000-row result limit divided by the documented 5,000-row page limit.
 
     .PARAMETER MaxRetryCount
-    Maximum number of retries after the first request attempt.
+    Number of retries after the first attempt.
+
+    .PARAMETER RetryStatusCode
+    HTTP statuses eligible for retry. Defaults to documented 429, 500, and 503.
+
+    .PARAMETER InitialRetryDelaySeconds
+    Exponential retry delay before jitter when no provider delay is available.
+
+    .PARAMETER MaximumRetryDelaySeconds
+    Upper delay bound.
+
+    .PARAMETER JitterMaximumMilliseconds
+    Maximum random jitter added to module-derived retry delay.
+
+    .PARAMETER TimeoutSeconds
+    Per-attempt HTTP timeout.
+
+    .PARAMETER JsonDepth
+    JSON serialization and parsing depth.
 
     .PARAMETER LogPath
-    Optional JSON Lines file receiving redacted request telemetry.
-
-    .EXAMPLE
-    Invoke-FortiCNAPPRequest `
-        -Session $session `
-        -Method GET `
-        -Path 'schemas/AuditLogs'
+    Optional JSON Lines destination for safe attempt telemetry.
 
     .OUTPUTS
     PSFortiCNAPP.ApiResponse
@@ -68,7 +79,6 @@ function Invoke-FortiCNAPPRequest {
         [string]$Path,
 
         [Parameter()]
-        [AllowNull()]
         [System.Collections.IDictionary]$Query,
 
         [Parameter()]
@@ -83,368 +93,371 @@ function Invoke-FortiCNAPPRequest {
         [int]$MaxPageCount = 100,
 
         [Parameter()]
-        [ValidateRange(0, 8)]
+        [ValidateRange(0, 10)]
         [int]$MaxRetryCount = 3,
 
         [Parameter()]
-        [ValidateRange(0.01, 120)]
+        [ValidateNotNullOrEmpty()]
+        [int[]]$RetryStatusCode = @(429, 500, 503),
+
+        [Parameter()]
+        [ValidateRange(0.01, 300)]
         [double]$InitialRetryDelaySeconds = 1,
 
         [Parameter()]
-        [ValidateRange(0, 5000)]
-        [int]$JitterMaximumMilliseconds = 250,
+        [ValidateRange(0.01, 600)]
+        [double]$MaximumRetryDelaySeconds = 60,
+
+        [Parameter()]
+        [ValidateRange(0, 60000)]
+        [int]$JitterMaximumMilliseconds = 500,
 
         [Parameter()]
         [ValidateRange(1, 300)]
         [int]$TimeoutSeconds = 30,
 
         [Parameter()]
-        [AllowNull()]
+        [ValidateRange(2, 100)]
+        [int]$JsonDepth = 50,
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [string]$LogPath
     )
 
     $sessionRecord = Get-FortiCNAPPSessionRecord -Session $Session
-    $nowUtc = [DateTimeOffset]::UtcNow
-    if ($sessionRecord.ExpiresAtUtc -le $nowUtc.AddSeconds(30)) {
+    $now = [DateTimeOffset]::UtcNow
+    if ($sessionRecord.ExpiresAtUtc -le $now.AddSeconds(30)) {
         Write-Error `
-            -Message 'The FortiCNAPP session is expired or too close to expiration for a new request.' `
+            -Message 'The FortiCNAPP session is expired or too close to expiration for a request.' `
             -ErrorId 'PSFortiCNAPP.Request.SessionExpired' `
             -Category AuthenticationError `
             -TargetObject $Session `
             -ErrorAction Stop
     }
 
-    $serializedBody = if ($null -eq $Body) {
-        $null
-    }
-    else {
-        $Body | ConvertTo-Json -Depth 100 -Compress
+    $currentUri = New-FortiCNAPPRequestUri `
+        -BaseUri $sessionRecord.BaseUri `
+        -Path $Path `
+        -Query $Query
+    $initialUri = $currentUri
+    $queryNames = @($Query.Keys | ForEach-Object { [string]$_ } | Sort-Object -Unique)
+    $bodyText = $null
+    if ($null -ne $Body) {
+        $bodyText = $Body | ConvertTo-Json -Depth $JsonDepth -Compress
+        $bodyByteCount = [System.Text.UTF8Encoding]::new($false).GetByteCount($bodyText)
+        if ($bodyByteCount -gt 1MB) {
+            Write-Error `
+                -Message 'The JSON request body exceeds the documented 1 MB limit.' `
+                -ErrorId 'PSFortiCNAPP.Request.BodyTooLarge' `
+                -Category LimitsExceeded `
+                -TargetObject $bodyByteCount `
+                -ErrorAction Stop
+        }
     }
 
-    $currentPath = $Path
-    $currentQuery = $Query
-    $currentMethod = $Method
-    $currentBody = $serializedBody
-    $pageCount = 0
     $allData = [System.Collections.Generic.List[object]]::new()
-    $attemptRecords = [System.Collections.Generic.List[object]]::new()
-    $lastParsedBody = $null
-    $lastPaging = $null
-    $lastSafeUri = $null
-    $lastQueryNames = @()
-    $lastStatusCode = $null
-    $lastCorrelationId = $null
-    $lastRateLimit = $null
-    $lastBodyLength = 0
-    $lastBodySha256 = $null
+    $allAttempts = [System.Collections.Generic.List[object]]::new()
+    $pageCount = 0
     $collectionComplete = $false
+    $lastStatusCode = 0
+    $lastHeaders = $null
+    $lastContentBytes = [byte[]]@()
+    $lastParsedResponse = $null
 
     while ($true) {
-        $pageCount++
-        if ($pageCount -gt $MaxPageCount) {
+        if ($pageCount -ge $MaxPageCount) {
             Write-Error `
-                -Message "Pagination exceeded the configured MaxPageCount value of $MaxPageCount." `
+                -Message "The collection reached MaxPageCount $MaxPageCount before the provider indicated completion." `
                 -ErrorId 'PSFortiCNAPP.Request.PageLimitExceeded' `
                 -Category LimitsExceeded `
-                -TargetObject $lastSafeUri `
+                -TargetObject $currentUri `
                 -ErrorAction Stop
         }
 
-        $requestUri = New-FortiCNAPPRequestUri `
-            -BaseUri $sessionRecord.BaseUri `
-            -Path $currentPath `
-            -Query $currentQuery
-        $lastSafeUri = $requestUri.SafeUri
-        $lastQueryNames = $requestUri.QueryParameterNames
-
-        $headers = @{
-            Authorization  = 'Bearer {0}' -f $sessionRecord.AccessToken
-            Accept         = 'application/json'
-            'Content-Type' = 'application/json'
-        }
-
+        $pageCount++
+        $attemptNumber = 0
         $pageSucceeded = $false
-        for ($attempt = 1; $attempt -le ($MaxRetryCount + 1); $attempt++) {
-            $attemptStartedAtUtc = [DateTimeOffset]::UtcNow
-            $transportResponse = $null
-            $transportError = $null
+
+        while (-not $pageSucceeded) {
+            $attemptNumber++
+            $startedAtUtc = [DateTimeOffset]::UtcNow
+            $safePath = $currentUri.AbsolutePath
+            $headers = @{
+                Authorization = 'Bearer {0}' -f $sessionRecord.AccessToken
+                Accept = 'application/json'
+            }
+            if ($null -ne $bodyText) {
+                $headers['Content-Type'] = 'application/json'
+            }
 
             try {
                 $transportResponse = Invoke-FortiCNAPPHttpTransport `
-                    -Uri $requestUri.Uri `
-                    -Method $currentMethod `
+                    -Uri $currentUri `
+                    -Method $Method `
                     -Headers $headers `
-                    -Body $currentBody `
+                    -Body $bodyText `
                     -TimeoutSeconds $TimeoutSeconds
-            }
-            catch {
-                $transportError = $_
-            }
 
-            $attemptCompletedAtUtc = [DateTimeOffset]::UtcNow
-            $durationMilliseconds = [math]::Round(
-                ($attemptCompletedAtUtc - $attemptStartedAtUtc).TotalMilliseconds,
-                3
-            )
+                $completedAtUtc = [DateTimeOffset]::UtcNow
+                $statusCode = [int]$transportResponse.StatusCode
+                $lastStatusCode = $statusCode
+                $lastHeaders = $transportResponse.Headers
+                $contentText = if ($null -eq $transportResponse.Content) {
+                    ''
+                }
+                else {
+                    [string]$transportResponse.Content
+                }
+                $lastContentBytes = [System.Text.UTF8Encoding]::new($false).GetBytes($contentText)
+                $correlationId = Get-FortiCNAPPHeaderValue -Headers $lastHeaders -Name 'X-Request-Id'
+                $rateLimitRemaining = Get-FortiCNAPPHeaderValue -Headers $lastHeaders -Name 'RateLimit-Remaining'
 
-            if ($null -ne $transportError) {
-                $retryable = $attempt -le $MaxRetryCount
-                $attemptRecord = [pscustomobject][ordered]@{
-                    Page                 = $pageCount
-                    Attempt              = $attempt
-                    StartedAtUtc         = $attemptStartedAtUtc
-                    CompletedAtUtc       = $attemptCompletedAtUtc
-                    DurationMilliseconds = $durationMilliseconds
-                    Method               = $currentMethod
-                    RequestUri           = $requestUri.SafeUri.AbsoluteUri
-                    QueryParameterNames  = $requestUri.QueryParameterNames
-                    StatusCode           = $null
-                    Outcome              = 'TransportError'
-                    Retryable            = $retryable
-                    RetryDelaySeconds    = $null
-                    CorrelationId        = $null
-                    RateLimitRemaining   = $null
-                    ErrorType            = $transportError.Exception.GetType().FullName
+                $isSuccess = $statusCode -ge 200 -and $statusCode -le 299
+                if ($isSuccess) {
+                    if ([string]::IsNullOrWhiteSpace($contentText)) {
+                        $lastParsedResponse = $null
+                    }
+                    else {
+                        try {
+                            $lastParsedResponse = $contentText | ConvertFrom-Json -Depth $JsonDepth -ErrorAction Stop
+                        }
+                        catch {
+                            Write-Error `
+                                -Message 'A successful FortiCNAPP response was not valid JSON.' `
+                                -ErrorId 'PSFortiCNAPP.Request.InvalidJson' `
+                                -Category InvalidData `
+                                -TargetObject $currentUri `
+                                -ErrorAction Stop
+                        }
+                    }
+
+                    $attempt = [pscustomobject][ordered]@{
+                        Page = $pageCount
+                        Attempt = $attemptNumber
+                        StartedAtUtc = $startedAtUtc
+                        CompletedAtUtc = $completedAtUtc
+                        DurationMilliseconds = [math]::Round(($completedAtUtc - $startedAtUtc).TotalMilliseconds, 3)
+                        StatusCode = $statusCode
+                        Outcome = 'Success'
+                        RetryScheduled = $false
+                        RetryDelaySeconds = 0
+                        CorrelationId = $correlationId
+                        RateLimitRemaining = $rateLimitRemaining
+                    }
+                    $allAttempts.Add($attempt)
+                    Write-FortiCNAPPRequestLog `
+                        -LogPath $LogPath `
+                        -Entry ([ordered]@{
+                            TimestampUtc = $completedAtUtc
+                            SessionId = $sessionRecord.SessionId
+                            EnvironmentName = $sessionRecord.EnvironmentName
+                            Method = $Method
+                            SafePath = $safePath
+                            QueryParameterNames = $queryNames
+                            Page = $pageCount
+                            Attempt = $attemptNumber
+                            StatusCode = $statusCode
+                            Outcome = 'Success'
+                            CorrelationId = $correlationId
+                            RateLimitRemaining = $rateLimitRemaining
+                        })
+                    $pageSucceeded = $true
+                    break
                 }
 
-                if ($retryable) {
-                    $attemptRecord.RetryDelaySeconds = Get-FortiCNAPPRetryDelay `
-                        -Attempt $attempt `
+                $shouldRetryStatus = $statusCode -in $RetryStatusCode
+                $canRetry = $shouldRetryStatus -and $attemptNumber -le $MaxRetryCount
+                $retryDelaySeconds = if ($canRetry) {
+                    Get-FortiCNAPPRetryDelay `
+                        -Headers $lastHeaders `
+                        -AttemptNumber $attemptNumber `
                         -InitialDelaySeconds $InitialRetryDelaySeconds `
+                        -MaximumDelaySeconds $MaximumRetryDelaySeconds `
                         -JitterMaximumMilliseconds $JitterMaximumMilliseconds
                 }
-
-                $attemptRecords.Add($attemptRecord)
-                if (-not [string]::IsNullOrWhiteSpace($LogPath)) {
-                    Write-FortiCNAPPRequestLog -LiteralPath $LogPath -Entry $attemptRecord
+                else {
+                    0
                 }
 
-                if ($retryable) {
-                    Start-Sleep -Milliseconds ([int][math]::Ceiling($attemptRecord.RetryDelaySeconds * 1000))
+                $attempt = [pscustomobject][ordered]@{
+                    Page = $pageCount
+                    Attempt = $attemptNumber
+                    StartedAtUtc = $startedAtUtc
+                    CompletedAtUtc = $completedAtUtc
+                    DurationMilliseconds = [math]::Round(($completedAtUtc - $startedAtUtc).TotalMilliseconds, 3)
+                    StatusCode = $statusCode
+                    Outcome = 'HttpError'
+                    RetryScheduled = $canRetry
+                    RetryDelaySeconds = $retryDelaySeconds
+                    CorrelationId = $correlationId
+                    RateLimitRemaining = $rateLimitRemaining
+                }
+                $allAttempts.Add($attempt)
+                Write-FortiCNAPPRequestLog `
+                    -LogPath $LogPath `
+                    -Entry ([ordered]@{
+                        TimestampUtc = $completedAtUtc
+                        SessionId = $sessionRecord.SessionId
+                        EnvironmentName = $sessionRecord.EnvironmentName
+                        Method = $Method
+                        SafePath = $safePath
+                        QueryParameterNames = $queryNames
+                        Page = $pageCount
+                        Attempt = $attemptNumber
+                        StatusCode = $statusCode
+                        Outcome = 'HttpError'
+                        RetryScheduled = $canRetry
+                        RetryDelaySeconds = $retryDelaySeconds
+                        CorrelationId = $correlationId
+                        RateLimitRemaining = $rateLimitRemaining
+                    })
+
+                if ($canRetry) {
+                    Start-Sleep -Milliseconds ([int][math]::Round($retryDelaySeconds * 1000))
                     continue
                 }
 
                 Write-Error `
-                    -Message 'The FortiCNAPP request failed before an HTTP response was received.' `
+                    -Message "The FortiCNAPP request returned HTTP status $statusCode after $attemptNumber attempt(s)." `
+                    -ErrorId 'PSFortiCNAPP.Request.HttpError' `
+                    -Category InvalidResult `
+                    -TargetObject $currentUri `
+                    -ErrorAction Stop
+            }
+            catch {
+                if ($_.FullyQualifiedErrorId -match '^PSFortiCNAPP\.Request\.(HttpError|InvalidJson)') {
+                    throw
+                }
+
+                $completedAtUtc = [DateTimeOffset]::UtcNow
+                $safeMessage = "Transport failure: $($_.Exception.GetType().Name)."
+                $canRetryTransport = $attemptNumber -le $MaxRetryCount
+                $retryDelaySeconds = if ($canRetryTransport) {
+                    Get-FortiCNAPPRetryDelay `
+                        -AttemptNumber $attemptNumber `
+                        -InitialDelaySeconds $InitialRetryDelaySeconds `
+                        -MaximumDelaySeconds $MaximumRetryDelaySeconds `
+                        -JitterMaximumMilliseconds $JitterMaximumMilliseconds
+                }
+                else {
+                    0
+                }
+
+                $allAttempts.Add([pscustomobject][ordered]@{
+                    Page = $pageCount
+                    Attempt = $attemptNumber
+                    StartedAtUtc = $startedAtUtc
+                    CompletedAtUtc = $completedAtUtc
+                    DurationMilliseconds = [math]::Round(($completedAtUtc - $startedAtUtc).TotalMilliseconds, 3)
+                    StatusCode = $null
+                    Outcome = 'TransportError'
+                    RetryScheduled = $canRetryTransport
+                    RetryDelaySeconds = $retryDelaySeconds
+                    CorrelationId = $null
+                    RateLimitRemaining = $null
+                })
+                Write-FortiCNAPPRequestLog `
+                    -LogPath $LogPath `
+                    -Entry ([ordered]@{
+                        TimestampUtc = $completedAtUtc
+                        SessionId = $sessionRecord.SessionId
+                        EnvironmentName = $sessionRecord.EnvironmentName
+                        Method = $Method
+                        SafePath = $safePath
+                        QueryParameterNames = $queryNames
+                        Page = $pageCount
+                        Attempt = $attemptNumber
+                        Outcome = 'TransportError'
+                        RetryScheduled = $canRetryTransport
+                        RetryDelaySeconds = $retryDelaySeconds
+                        Message = $safeMessage
+                    })
+
+                if ($canRetryTransport) {
+                    Start-Sleep -Milliseconds ([int][math]::Round($retryDelaySeconds * 1000))
+                    continue
+                }
+
+                Write-Error `
+                    -Message "The FortiCNAPP request failed after $attemptNumber attempt(s). $safeMessage" `
                     -ErrorId 'PSFortiCNAPP.Request.TransportFailure' `
                     -Category ConnectionError `
-                    -TargetObject $requestUri.SafeUri `
+                    -TargetObject $currentUri `
                     -ErrorAction Stop
             }
+        }
 
-            $statusCode = [int]$transportResponse.StatusCode
-            $responseHeaders = if ($null -eq $transportResponse.Headers) {
-                @{}
-            }
-            else {
-                $transportResponse.Headers
-            }
-            $content = if ($null -eq $transportResponse.Content) {
-                ''
-            }
-            else {
-                [string]$transportResponse.Content
-            }
-
-            $contentBytes = [System.Text.UTF8Encoding]::new($false).GetBytes($content)
-            $contentSha256 = if ($contentBytes.Length -eq 0) {
-                $null
-            }
-            else {
-                [Convert]::ToHexString(
-                    [System.Security.Cryptography.SHA256]::HashData($contentBytes)
-                ).ToLowerInvariant()
-            }
-
-            $contentType = Get-FortiCNAPPHeaderValue -Headers $responseHeaders -Name 'Content-Type'
-            $parsedBody = $null
-            $parseFailed = $false
-            if ($contentBytes.Length -gt 0) {
-                try {
-                    $parsedBody = $content | ConvertFrom-Json -Depth 100 -ErrorAction Stop
-                }
-                catch {
-                    $parseFailed = $true
+        if ($null -ne $lastParsedResponse) {
+            $dataProperty = $lastParsedResponse.PSObject.Properties['data']
+            if ($null -ne $dataProperty -and $null -ne $dataProperty.Value) {
+                foreach ($record in @($dataProperty.Value)) {
+                    $allData.Add($record)
                 }
             }
+            elseif ($pageCount -eq 1) {
+                $allData.Add($lastParsedResponse)
+            }
+        }
 
-            $correlationId = Get-FortiCNAPPHeaderValue -Headers $responseHeaders -Name 'X-Request-Id'
-            $rateLimit = [pscustomobject][ordered]@{
-                Limit     = Get-FortiCNAPPHeaderValue -Headers $responseHeaders -Name 'RateLimit-Limit'
-                Remaining = Get-FortiCNAPPHeaderValue -Headers $responseHeaders -Name 'RateLimit-Remaining'
-                Reset     = Get-FortiCNAPPHeaderValue -Headers $responseHeaders -Name 'RateLimit-Reset'
-            }
-
-            $isSuccess = $statusCode -in @(200, 201, 204)
-            $retryableStatus = $statusCode -in @(429, 500, 503)
-            $retryable = $retryableStatus -and $attempt -le $MaxRetryCount
-            $outcome = if ($isSuccess) {
-                'Success'
-            }
-            elseif ($retryable) {
-                'Retry'
-            }
-            else {
-                'HttpError'
-            }
-
-            $attemptRecord = [pscustomobject][ordered]@{
-                Page                 = $pageCount
-                Attempt              = $attempt
-                StartedAtUtc         = $attemptStartedAtUtc
-                CompletedAtUtc       = $attemptCompletedAtUtc
-                DurationMilliseconds = $durationMilliseconds
-                Method               = $currentMethod
-                RequestUri           = $requestUri.SafeUri.AbsoluteUri
-                QueryParameterNames  = $requestUri.QueryParameterNames
-                StatusCode           = $statusCode
-                Outcome              = $outcome
-                Retryable            = $retryable
-                RetryDelaySeconds    = $null
-                CorrelationId        = $correlationId
-                RateLimitRemaining   = $rateLimit.Remaining
-                ErrorType            = $null
-            }
-
-            if ($retryable) {
-                $attemptRecord.RetryDelaySeconds = Get-FortiCNAPPRetryDelay `
-                    -Attempt $attempt `
-                    -InitialDelaySeconds $InitialRetryDelaySeconds `
-                    -Headers $responseHeaders `
-                    -JitterMaximumMilliseconds $JitterMaximumMilliseconds
-            }
-
-            $attemptRecords.Add($attemptRecord)
-            if (-not [string]::IsNullOrWhiteSpace($LogPath)) {
-                Write-FortiCNAPPRequestLog -LiteralPath $LogPath -Entry $attemptRecord
-            }
-
-            if ($retryable) {
-                Start-Sleep -Milliseconds ([int][math]::Ceiling($attemptRecord.RetryDelaySeconds * 1000))
-                continue
-            }
-
-            if (-not $isSuccess) {
-                $providerMessage = if (
-                    $null -ne $parsedBody -and
-                    $null -ne $parsedBody.PSObject.Properties['message']
-                ) {
-                    ([string]$parsedBody.message).Trim()
-                }
-                else {
-                    $null
-                }
-                $message = if ([string]::IsNullOrWhiteSpace($providerMessage)) {
-                    "FortiCNAPP returned HTTP status $statusCode."
-                }
-                else {
-                    "FortiCNAPP returned HTTP status $statusCode: $providerMessage"
-                }
-
-                Write-Error `
-                    -Message $message `
-                    -ErrorId "PSFortiCNAPP.Request.Http$statusCode" `
-                    -Category InvalidOperation `
-                    -TargetObject $requestUri.SafeUri `
-                    -ErrorAction Stop
-            }
-
-            if ($parseFailed) {
-                Write-Error `
-                    -Message 'The successful FortiCNAPP response body was not valid JSON.' `
-                    -ErrorId 'PSFortiCNAPP.Request.InvalidJsonResponse' `
-                    -Category InvalidData `
-                    -TargetObject $requestUri.SafeUri `
-                    -ErrorAction Stop
-            }
-
-            $pageData = if (
-                $null -ne $parsedBody -and
-                $null -ne $parsedBody.PSObject.Properties['data']
-            ) {
-                @($parsedBody.data)
-            }
-            elseif ($null -ne $parsedBody) {
-                @($parsedBody)
-            }
-            else {
-                @()
-            }
-
-            foreach ($item in $pageData) {
-                $allData.Add($item)
-            }
-
-            $paging = if (
-                $null -ne $parsedBody -and
-                $null -ne $parsedBody.PSObject.Properties['paging']
-            ) {
-                $parsedBody.paging
-            }
-            else {
-                $null
-            }
-
-            $lastParsedBody = $parsedBody
-            $lastPaging = $paging
-            $lastStatusCode = $statusCode
-            $lastCorrelationId = $correlationId
-            $lastRateLimit = $rateLimit
-            $lastBodyLength = $contentBytes.Length
-            $lastBodySha256 = $contentSha256
-            $pageSucceeded = $true
+        if (-not $AllPages -or $null -eq $lastParsedResponse) {
+            $collectionComplete = $true
             break
         }
 
-        if (-not $pageSucceeded) {
-            Write-Error `
-                -Message 'The FortiCNAPP page request did not complete.' `
-                -ErrorId 'PSFortiCNAPP.Request.PageFailure' `
-                -Category InvalidResult `
-                -TargetObject $lastSafeUri `
-                -ErrorAction Stop
+        $nextPageText = $null
+        $pagingProperty = $lastParsedResponse.PSObject.Properties['paging']
+        if ($null -ne $pagingProperty -and $null -ne $pagingProperty.Value) {
+            $urlsProperty = $pagingProperty.Value.PSObject.Properties['urls']
+            if ($null -ne $urlsProperty -and $null -ne $urlsProperty.Value) {
+                $nextProperty = $urlsProperty.Value.PSObject.Properties['nextPage']
+                if ($null -ne $nextProperty -and $null -ne $nextProperty.Value) {
+                    $nextPageText = [string]$nextProperty.Value
+                }
+            }
         }
 
-        $nextPage = $null
-        if (
-            $null -ne $lastPaging -and
-            $null -ne $lastPaging.PSObject.Properties['urls'] -and
-            $null -ne $lastPaging.urls -and
-            $null -ne $lastPaging.urls.PSObject.Properties['nextPage']
-        ) {
-            $nextPage = [string]$lastPaging.urls.nextPage
-        }
-
-        if (-not $AllPages -or [string]::IsNullOrWhiteSpace($nextPage)) {
-            $collectionComplete = [string]::IsNullOrWhiteSpace($nextPage)
+        if ([string]::IsNullOrWhiteSpace($nextPageText)) {
+            $collectionComplete = $true
             break
         }
 
-        $currentPath = $nextPage
-        $currentQuery = $null
-        $currentMethod = 'GET'
-        $currentBody = $null
+        $currentUri = New-FortiCNAPPRequestUri `
+            -BaseUri $sessionRecord.BaseUri `
+            -AbsoluteUri ([uri]$nextPageText)
+    }
+
+    $lastBodySha256 = if ($lastContentBytes.Length -eq 0) {
+        $null
+    }
+    else {
+        [Convert]::ToHexString(
+            [System.Security.Cryptography.SHA256]::HashData($lastContentBytes)
+        ).ToLowerInvariant()
     }
 
     $result = [pscustomobject][ordered]@{
-        SessionId              = $sessionRecord.SessionId
-        EnvironmentName        = $sessionRecord.EnvironmentName
-        AccountName            = $sessionRecord.AccountName
-        RequestUri             = $lastSafeUri
-        QueryParameterNames    = $lastQueryNames
-        StatusCode             = $lastStatusCode
-        PageCount              = $pageCount
-        RecordCount            = $allData.Count
-        CollectionComplete     = $collectionComplete
-        Data                   = $allData.ToArray()
-        LastParsedBody         = $lastParsedBody
-        LastPaging             = $lastPaging
-        Attempts               = $attemptRecords.ToArray()
-        CorrelationId          = $lastCorrelationId
-        RateLimit              = $lastRateLimit
-        LastBodyLengthBytes    = $lastBodyLength
-        LastBodySha256         = $lastBodySha256
-        RawResponseReturned    = $false
+        SessionId = $sessionRecord.SessionId
+        EnvironmentName = $sessionRecord.EnvironmentName
+        AccountName = $sessionRecord.AccountName
+        Method = $Method
+        RequestUri = [uri]::new($initialUri.GetLeftPart([UriPartial]::Path))
+        QueryParameterNames = $queryNames
+        StatusCode = $lastStatusCode
+        PageCount = $pageCount
+        RecordCount = $allData.Count
+        CollectionComplete = $collectionComplete
+        Data = $allData.ToArray()
+        Attempts = $allAttempts.ToArray()
+        CorrelationId = Get-FortiCNAPPHeaderValue -Headers $lastHeaders -Name 'X-Request-Id'
+        RateLimit = [pscustomobject][ordered]@{
+            Limit = Get-FortiCNAPPHeaderValue -Headers $lastHeaders -Name 'RateLimit-Limit'
+            Remaining = Get-FortiCNAPPHeaderValue -Headers $lastHeaders -Name 'RateLimit-Remaining'
+            Reset = Get-FortiCNAPPHeaderValue -Headers $lastHeaders -Name 'RateLimit-Reset'
+        }
+        LastBodyLengthBytes = $lastContentBytes.Length
+        LastBodySha256 = $lastBodySha256
+        RawResponseReturned = $false
         SensitiveValuesExposed = $false
     }
     $result.PSObject.TypeNames.Insert(0, 'PSFortiCNAPP.ApiResponse')
