@@ -3,6 +3,11 @@
 
 function New-FortiCNAPPSessionObject {
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+        'PSUseShouldProcessForStateChangingFunctions',
+        '',
+        Justification = 'Creates a safe in-memory session view and changes no external or persistent state.'
+    )]
     [OutputType([pscustomobject])]
     param(
         [Parameter(Mandatory)]
@@ -11,16 +16,16 @@ function New-FortiCNAPPSessionObject {
     )
 
     $session = [pscustomobject][ordered]@{
-        SessionId           = $SessionRecord.SessionId
-        EnvironmentName     = $SessionRecord.EnvironmentName
-        AccountName         = $SessionRecord.AccountName
-        BaseUri             = $SessionRecord.BaseUri
-        AuthenticationMode  = $SessionRecord.AuthenticationMode
-        KeyIdDisplay        = $SessionRecord.KeyIdDisplay
-        ConnectedAtUtc      = $SessionRecord.ConnectedAtUtc
-        ExpiresAtUtc        = $SessionRecord.ExpiresAtUtc
+        SessionId            = $SessionRecord.SessionId
+        EnvironmentName      = $SessionRecord.EnvironmentName
+        AccountName          = $SessionRecord.AccountName
+        BaseUri              = $SessionRecord.BaseUri
+        AuthenticationMode   = $SessionRecord.AuthenticationMode
+        KeyIdDisplay         = $SessionRecord.KeyIdDisplay
+        ConnectedAtUtc       = $SessionRecord.ConnectedAtUtc
+        ExpiresAtUtc         = $SessionRecord.ExpiresAtUtc
         TokenLifetimeSeconds = $SessionRecord.TokenLifetimeSeconds
-        IsConnected         = $true
+        IsConnected          = $true
     }
     $session.PSObject.TypeNames.Insert(
         0,
