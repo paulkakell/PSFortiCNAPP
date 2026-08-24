@@ -32,6 +32,11 @@ function New-FortiCNAPPConfiguration {
     PSFortiCNAPP.Configuration
     #>
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+        'PSUseShouldProcessForStateChangingFunctions',
+        '',
+        Justification = 'Creates an in-memory configuration object and changes no external or persistent state.'
+    )]
     [OutputType([pscustomobject])]
     param(
         [Parameter(Mandatory)]
