@@ -3,6 +3,11 @@
 
 function New-FortiCNAPPRequestUri {
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+        'PSUseShouldProcessForStateChangingFunctions',
+        '',
+        Justification = 'Creates an in-memory URI description and changes no external or persistent state.'
+    )]
     [OutputType([pscustomobject])]
     param(
         [Parameter(Mandatory)]
@@ -10,6 +15,7 @@ function New-FortiCNAPPRequestUri {
         [uri]$BaseUri,
 
         [Parameter(Mandatory)]
+        [Alias('AbsoluteUri')]
         [ValidateNotNullOrEmpty()]
         [string]$Path,
 
